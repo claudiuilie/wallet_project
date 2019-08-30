@@ -1,0 +1,127 @@
+
+<div id="formWrapper">
+    <!-- Modal -->
+    <div class="modal fade" id="addExtraModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add extra outcome</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Extra outcome details</label>
+                            <input id="addExtraOutcomeDetails" type="text" class="form-control"  placeholder="Enter extra outcome details" required>
+                             <div class="invalid-feedback">Please provide income</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="formGroupExampleInput">Extra outcome details</label>
+                            <input id="addExtraOutcomeValue" type="number" class="form-control"  placeholder="Enter extra outcome value" required>
+                            <div class="invalid-feedback">Please provide income</div>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id = "addExtra" type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--    form data -->
+    <div class="card" style="margin: 1%;">
+        <div class="card-header" style="text-align: center;">
+            Create new month
+        </div>
+        <div class="card-body">
+            <form id ="formData" class="was-validated " method="POST" action="/create" >
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Month</label>
+                    <select class="custom-select" required name="month_name">
+                        <option value="">Select month</option>
+                        <option value="january">January</option>
+                        <option value="february">February</option>
+                        <option value="march">March</option>
+                        <option value="april">April</option>
+                        <option value="may">May</option>
+                        <option value="june">June</option>
+                        <option value="july">July</option>
+                        <option value="august">August</option>
+                        <option value="september">September</option>
+                        <option value="octobre">Octobre</option>
+                        <option value="november">November</option>
+                        <option value="decembre">Decembre</option>
+                    </select>
+                    <div class="invalid-feedback">Example invalid custom select feedback</div>
+                </div>
+                <div class="form-group">
+                    <label for="disabledYearInput">Year</label>
+                    <input type="number" id="disabledYearInput" class="form-control" name="year" required>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Income Claudiu</label>
+                    <input type="number" class="form-control" name="income_claudiu" placeholder="Enter income" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Income Frumy</label>
+                    <input type="number" class="form-control" name="income_frumy" placeholder="Enter income" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Home Credit</label>
+                    <input type="number" class="form-control" name="outcome_casa" placeholder="Enter outcome" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Car Credit</label>
+                    <input type="number" class="form-control" name="outcome_masina" placeholder="Enter outcome" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Frumy's Credit</label>
+                    <input type="number" class="form-control" name="outcome_avans" placeholder="Enter outcome" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Engie</label>
+                    <input type="number" class="form-control" name="outcome_engie" placeholder="Enter outcome" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Enel</label>
+                    <input type="number" class="form-control" name="outcome_enel" placeholder="Enter outcome" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Digi</label>
+                    <input type="number" class="form-control" name="outcome_digi" placeholder="Enter outcome" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Block maintenance </label>
+                    <input type="number" class="form-control" name="outcome_intretinere" placeholder="Enter outcome" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Subscriptions</label>
+                    <input type="number" class="form-control" name="outcome_abonamente" placeholder="Enter outcome" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group">
+                    <label for="formGroupExampleInput">Holiday</label>
+                    <input type="number" class="form-control" name="outcome_vacanta" placeholder="Enter outcome" required>
+                    <div class="invalid-feedback">Please provide income</div>
+                </div>
+                <div class="form-group" id="extraHolder"> </div>
+
+                <button type="button" class="btn btn-success btn-lg btn-block" id="addExtraButton" data-toggle="modal" data-target="#addExtraModal">Add Extra</button>
+                <button type="submit" class="btn btn-primary btn-lg btn-block" >Submit</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="/js/outcomeController.js"></script>
