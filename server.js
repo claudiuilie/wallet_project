@@ -78,6 +78,7 @@ app.get('/home', function (req, res) {
                 month.getMonth(year[year.length - 1]);
                 let pieChart = new pieEntity(month);
                 let outcomeChart = new outcomeEntity(month);
+                progressChart.shortMonths();
 
                 res.render('home', {
                     pieData: pieChart,
@@ -161,7 +162,7 @@ app.get('*', function (req, res) {
   res.redirect('/home');
 });
 
-app.listen(8000,() => console.log(`Listening on port 8000!`));
+app.listen(8000,'192.168.1.114',() => console.log(`Listening on port 8000!`));
 
 // CREATE TABLE `income` (
 //     `id` int(11) NOT NULL AUTO_INCREMENT,
