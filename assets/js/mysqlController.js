@@ -23,7 +23,7 @@ class mysqlController {
             }
 
             this.connection.query(querry,Object.values(request),(error,res)=>{
-                return results(error,res);
+		return results(error,res);
             });
     }
 
@@ -38,4 +38,6 @@ class mysqlController {
 }
 
 module.exports = mysqlController;
+
+
 

@@ -128,8 +128,7 @@ app.post('/create', function (req, res) {
     function postData() {
         mysql.insert('income',month,(error,results) => {
             if (error) {
-                if(error) {
-                    throw new Error(error);
+                if(error) {                    throw new Error(error);
                 }
             } else {
                 if (results.affectedRows > 0 ) {
@@ -162,7 +161,7 @@ app.get('*', function (req, res) {
   res.redirect('/home');
 });
 
-app.listen(8000,'192.168.1.114',() => console.log(`Listening on port 8000!`));
+app.listen(8000,'192.168.1.102',() => console.log(`Listening on port 8000!`));
 
 // CREATE TABLE `income` (
 //     `id` int(11) NOT NULL AUTO_INCREMENT,
