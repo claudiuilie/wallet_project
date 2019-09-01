@@ -4,9 +4,9 @@ class mysqlController {
 
     constructor() {
         this.connection = mysql.createConnection({
-            host     : 'localhost',
-            user     : 'root',
-            password : '',
+            host     : '192.168.1.102',
+            user     : 'incomeapp',
+            password : 'Bulgaria188',
             database : 'test'
         });
     }
