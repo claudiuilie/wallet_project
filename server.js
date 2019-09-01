@@ -1,3 +1,5 @@
+
+const options = require('./assets/config/config');
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
@@ -10,9 +12,10 @@ const pieEntity = require('./assets/entity/pieChart');
 const outcomeEntity = require('./assets/entity/outcomeChart');
 const progressEntity = require('./assets/entity/progressChart');
 
+let config = new options();
 let router = express.Router();
 let app = express();
-let mysql = new mysqlController();
+let mysql = new mysqlController(config.mysql);
 let api = mysqltorest(app,mysql.connection);
 
 app.engine('hbs', exphbs({extname:'hbs', defaultLayout:'main.hbs'}));
@@ -161,7 +164,7 @@ app.get('*', function (req, res) {
   res.redirect('/home');
 });
 
-app.listen(8000,'192.168.1.102',() => console.log(`Listening on port 8000!`));
+app.listen(config.server.port,config.server.host,() => console.log(`Listening ${config.server.host}:${config.server.port}`));
 
 // CREATE TABLE `income` (
 //     `id` int(11) NOT NULL AUTO_INCREMENT,

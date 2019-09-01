@@ -2,13 +2,8 @@ const mysql = require('mysql');
 
 class mysqlController {
 
-    constructor() {
-        this.connection = mysql.createConnection({
-            host     : '192.168.1.102',
-            user     : 'incomeapp',
-            password : 'Bulgaria188',
-            database : 'test'
-        });
+    constructor(config) {
+        this.connection = mysql.createConnection(config);
     }
 
     select(database,request,results) {
