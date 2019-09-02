@@ -1,4 +1,3 @@
-
 const options = require('./assets/config/config');
 const express = require('express');
 const path = require('path');
@@ -39,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'assets')));
 app.get('/', function(req, response) {
 
     if (req.session.loggedin) {
-           res.redirect('/home');
+        response.redirect('/home');
     } else {
         response.render('home',{layout:'login.hbs'});
     }
@@ -88,6 +87,7 @@ app.get('/home', function (req, res) {
                     outcomeData: outcomeChart,
                     progressData: progressChart
                 });
+
             } else {
                 res.render('home', {})
             }
@@ -144,8 +144,37 @@ app.post('/create', function (req, res) {
 });
 
 app.get('/edit', function (req, res) {
-  res.render('editIncome');
-  res.renderError()
+    if (req.session.loggedin) {
+
+       if (Object.keys(req.query).length > 0 ) {
+           mysql.select('income' ,req.query,(error,results)=>{
+               let month = new monthEntity()
+               month.getMonth(results[0])
+
+               res.render('editIncome', {month :month});
+           });
+       } else {
+           res.redirect('/home');
+       }
+    } else {
+        res.redirect('/');
+    }
+
+});
+
+app.post('/edit', function (req, res) {
+    let month = new monthEntity();
+    month.setMonth(req.body);
+
+    mysql.update('income',month,(error,results) => {
+        if (error) {
+                throw new Error(error);
+        } else {
+            if (results.affectedRows > 0 ) {
+                res.redirect('home');
+            }
+        }
+    });
 });
 
 app.get('/logout', function(req, res, next) {
@@ -187,8 +216,6 @@ app.listen(config.server.port,config.server.host,() => console.log(`Listening ${
 //     `creation` datetime DEFAULT NULL,
 //     PRIMARY KEY (`id`)
 // ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
-
 
 // CREATE TABLE IF NOT EXISTS `accounts` (
 //   `id` int(11) NOT NULL,

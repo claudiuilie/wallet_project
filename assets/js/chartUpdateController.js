@@ -15,8 +15,8 @@ function updateData(chartName,labels, body, title) {
     chartName.update();
 }
 
-
 function updateChart(monthName){
+    $('#monthName').val(monthName);
     $('#dropdownMenuButton').html(`${monthName} ${new Date().getFullYear()}`)
     $.ajax({
         url:`/api/income?month_name=${monthName}&year=${new Date().getFullYear()}`,

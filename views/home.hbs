@@ -1,8 +1,9 @@
+
 <div style="padding: 2% ;">
-    <div class="card text-center" style="margin-bottom: 5px;" >
+    <div class="card text-center" style="margin-bottom: 5px;" name="{{{pieData.month}}}" value="{{{pieData.year}}}">
         <div class="card-header">
-            <div class="dropdown">
-                <button class="btn btn-outline-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="width:100%;">
+            <div class="input-group">
+                <button class="btn btn-info dropdown-toggle btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     {{{pieData.month}}} {{{pieData.year}}}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 100%;text-align: center;">
@@ -13,9 +14,16 @@
             </div>
         </div>
 
-        <br class="card-body">
+        <div class="card-body">
             <canvas id="pieChart"></canvas></br>
             <canvas id="extendedOutcomeChart"></canvas>
+        </div>
+        <div class="card-footer">
+            <form  id ="formData" method="GET" action="/edit" >
+                <input id="monthName" type="hidden" class="form-control" name="month_name" value="{{{pieData.month}}}">
+                <input type="hidden" class="form-control" name="year" value="{{{pieData.year}}}">
+                <button type="submit" class="btn btn-primary  btn-block " >Edit</button>
+            </form>
         </div>
     </div>
 
@@ -102,6 +110,8 @@
             options: {}
         });
     </script>
+
+
 
 </div>
 
