@@ -21,7 +21,9 @@ var transporter = nodemailer.createTransport({
     auth: {
         user: 'slow.motion3@yahoo.com',
         pass: 'bulgaria188'
-    }
+    },
+    debug: false,
+    logger: true 
 });
 var mailOptions = {
     from: 'slow.motion3@yahoo.com',
