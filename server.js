@@ -11,6 +11,34 @@ const pieEntity = require('./assets/entity/pieChart');
 const outcomeEntity = require('./assets/entity/outcomeChart');
 const progressEntity = require('./assets/entity/progressChart');
 
+
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+    host: 'smtp.mail.yahoo.com',
+    port: 465,
+    service:'yahoo',
+    secure: false,
+    auth: {
+        user: 'slow.motion3@yahoo.com',
+        pass: 'bulgaria188'
+    }
+});
+var mailOptions = {
+    from: 'slow.motion3@yahoo.com',
+    to: 'claudiu.ilie0322@gmail.com',
+    subject: 'Test',
+    text: 'That was easy!'
+};
+transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+        console.log(error);
+    } else {
+        console.log('Email sent: ' + info.response);
+    }
+});
+
+
+
 let config = new options();
 let router = express.Router();
 let app = express();
