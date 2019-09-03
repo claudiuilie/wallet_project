@@ -13,13 +13,12 @@
                 </div>
             </div>
         </div>
-
         <div class="card-body">
             <canvas id="pieChart"></canvas></br>
             <canvas id="extendedOutcomeChart"></canvas>
         </div>
         <div class="card-footer">
-            <form  id ="formData" method="GET" action="/edit" >
+            <form  id ="formData" method="GET" action="/edit/income" >
                 <input id="monthName" type="hidden" class="form-control" name="month_name" value="{{{pieData.month}}}">
                 <input type="hidden" class="form-control" name="year" value="{{{pieData.year}}}">
                 <button type="submit" class="btn btn-primary  btn-block " >Edit</button>
@@ -110,8 +109,6 @@
             options: {}
         });
     </script>
-
-
 
 </div>
 

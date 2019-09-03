@@ -1,51 +1,18 @@
-const options = require('./assets/config/config');
 const express = require('express');
 const path = require('path');
-const session = require('express-session');
 const bodyParser = require('body-parser');
+const session = require('express-session');
 const exphbs  = require('express-handlebars');
 const mysqltorest  = require('mysql-to-rest');
 const mysqlController = require('./assets/js/mysqlController');
-const monthEntity = require('./assets/entity/month');
-const pieEntity = require('./assets/entity/pieChart');
-const outcomeEntity = require('./assets/entity/outcomeChart');
-const progressEntity = require('./assets/entity/progressChart');
+const options = require('./assets/config/config');
 
-
-var nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport({
-    host: 'smtp.mail.yahoo.com',
-    port: 465,
-    service:'yahoo',
-    secure: false,
-    auth: {
-        user: 'slow.motion3@yahoo.com',
-        pass: 'bulgaria188'
-    },
-    debug: false,
-    logger: true 
-});
-var mailOptions = {
-    from: 'slow.motion3@yahoo.com',
-    to: 'claudiu.ilie0322@gmail.com',
-    subject: 'Test',
-    text: 'That was easy!'
-};
-transporter.sendMail(mailOptions, function(error, info){
-    if (error) {
-        console.log(error);
-    } else {
-        console.log('Email sent: ' + info.response);
-    }
-});
-
-
-
-let config = new options();
-let router = express.Router();
 let app = express();
+let config = new options();
 let mysql = new mysqlController(config.mysql);
 let api = mysqltorest(app,mysql.connection);
+
+
 
 app.engine('hbs', exphbs({extname:'hbs', defaultLayout:'main.hbs'}));
 app.set('view engine', 'hbs');
@@ -62,165 +29,22 @@ app.use(function(req, res, next){
 });
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
-app.use('/', router);
 app.use(express.static(path.join(__dirname, 'assets')));
 
-app.get('/', function(req, response) {
+let authRouter = require('./routes/auth');
+let homeRouter = require('./routes/home');
+let createRouter = require('./routes/create');
+let editRouter = require('./routes/edit');
+let logoutRouter = require('./routes/logout');
 
-    if (req.session.loggedin) {
-        response.redirect('/home');
-    } else {
-        response.render('home',{layout:'login.hbs'});
-    }
+app.use('/auth', authRouter);
+app.use('/home', homeRouter);
+app.use('/create', createRouter);
+app.use('/edit', editRouter);
+app.use('/logout', logoutRouter);
 
-});
-
-app.post('/auth', function(request, response) {
-    var username = request.body.username;
-    var password = request.body.password;
-    if (username && password) {
-        mysql.select('accounts',{'username':username,'password': password},(err,results)=> {
-            if (results.length > 0) {
-                request.session.loggedin = true;
-                request.session.username = username;
-                response.redirect('/home');
-            } else {
-                response.send('Incorrect Username and/or Password!');
-            }
-            response.end();
-        });
-    } else {
-        response.send('Please enter Username and Password!');
-        response.end();
-    }
-});
-
-app.get('/home', function (req, res) {
-
-    if (req.session.loggedin) {
-
-        mysql.select('income' ,{'year':new Date().getFullYear()},(error,results)=>{
-            if(error) {
-                throw new Error(error);
-            }
-            if (results.length > 0) {
-                let year = results;
-                let progressChart = new progressEntity(year);
-                let month = new monthEntity();
-                month.getMonth(year[year.length - 1]);
-                let pieChart = new pieEntity(month);
-                let outcomeChart = new outcomeEntity(month);
-                progressChart.shortMonths();
-
-                res.render('home', {
-                    pieData: pieChart,
-                    outcomeData: outcomeChart,
-                    progressData: progressChart
-                });
-
-            } else {
-                res.render('home', {})
-            }
-        });
-
-    } else {
-        res.redirect('/');
-    }
-});
-
-app.get('/create', function (req, res) {
-
-    if (req.session.loggedin) {
-          res.render('createIncome');
-    } else {
-        res.redirect('/');
-    }
-});
-
-app.post('/create', function (req, res) {
-
-    let month = new monthEntity();
-    month.setMonth(req.body);
-
-    function validateMonth() {
-        mysql.select('income',{'month_name':month.month_name,'year':month.year},(error,results) =>{
-            if (error) {
-                if(error) {
-                    throw new Error(error);
-                }
-            } else {
-                if (results.length == 0) {
-                    postData()
-                } else {
-                    res.render('createIncome', {testText: `Exista deja date pentru luna ${month.month_name} ${month.year}` , errorModal: 'show'});
-                }
-            }
-        });
-    }
-
-    function postData() {
-        mysql.insert('income',month,(error,results) => {
-            if (error) {
-                if(error) {                    throw new Error(error);
-                }
-            } else {
-                if (results.affectedRows > 0 ) {
-                    res.render('createIncome', {testText: `Success: affected rows ${results.affectedRows}` , errorModal: 'show'});
-                }
-            }
-        });
-    }
-    validateMonth();
-});
-
-app.get('/edit', function (req, res) {
-    if (req.session.loggedin) {
-
-       if (Object.keys(req.query).length > 0 ) {
-           mysql.select('income' ,req.query,(error,results)=>{
-               let month = new monthEntity()
-               month.getMonth(results[0])
-
-               res.render('editIncome', {month :month});
-           });
-       } else {
-           res.redirect('/home');
-       }
-    } else {
-        res.redirect('/');
-    }
-
-});
-
-app.post('/edit', function (req, res) {
-    let month = new monthEntity();
-    month.setMonth(req.body);
-
-    mysql.update('income',month,(error,results) => {
-        if (error) {
-                throw new Error(error);
-        } else {
-            if (results.affectedRows > 0 ) {
-                res.redirect('home');
-            }
-        }
-    });
-});
-
-app.get('/logout', function(req, res, next) {
-  if (req.session) {
-    req.session.destroy(function(err) {
-      if(err) {
-        return next(err);
-      } else {
-        return res.redirect('/');
-      }
-    });
-  }
-});
-
-app.get('*', function (req, res) {
-  res.redirect('/home');
+app.get('*', (req, res) => {
+    res.redirect('/home');
 });
 
 app.listen(config.server.port,config.server.host,() => console.log(`Listening ${config.server.host}:${config.server.port}`));
