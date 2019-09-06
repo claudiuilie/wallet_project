@@ -9,28 +9,28 @@ let config = new options();
 let express = require('express');
 let router = express.Router();
 let mysql = new mysqlController(config.mysql);
+let date = new Date();
 
+function builder(req,res,next, params){
 
-// middleware that is specific to this router
-// router.use(function timeLog (req, res, next) {
-//     console.log('Time: ', Date.now())
-//     next()
-// })
+    let year;
+    let progressChart;
+    let month = new monthEntity();
 
-router.get('/', (req, res, next) => {
-
-    if (!req.session.loggedin) res.redirect('/auth');
-
-    else {
-        mysql.select('income' ,{'year':new Date().getFullYear()},(error,results)=>{
+    mysql.select('income', {'year' : date.getFullYear()}, (error, results) => {
+        if(error) {
+            return next(error);
+        }
+        year = results;
+        progressChart = new progressEntity(year);
+        mysql.select('income' ,params,(error,results)=>{
             if(error) {
                 return next(error);
             }
+
             if (results.length > 0) {
-                let year = results;
-                let progressChart = new progressEntity(year);
-                let month = new monthEntity();
-                month.getMonth(year[year.length - 1]);
+
+                month.getMonth(results[0]);
                 let pieChart = new pieEntity(month);
                 let outcomeChart = new outcomeEntity(month);
                 progressChart.shortMonths();
@@ -45,7 +45,33 @@ router.get('/', (req, res, next) => {
                 res.render('home', {})
             }
         });
+    });
+}
+
+// middleware that is specific to this router
+// router.use(function timeLog (req, res, next) {
+//     console.log('Time: ', Date.now())
+//     next()
+// })
+
+router.get('/', (req, res, next) => {
+
+    if (!req.session.loggedin) res.redirect('/auth');
+
+    else {
+        let params = {'month_name': date.toLocaleString('default', { month: 'long' }),'year': date.getFullYear()}
+        builder(req,res,next,params);
     }
 });
+
+router.post('/', (req, res, next) => {
+
+    if (!req.session.loggedin) res.redirect('/auth');
+
+    else {
+        builder(req,res,next, req.body);
+    }
+});
+
 
 module.exports = router;

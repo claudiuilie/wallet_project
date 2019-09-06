@@ -16,7 +16,7 @@ class Month {
 		for (let z in body) {
 			if (z.match(/extra_/g) ){
 				this.total_outcome += parseInt(body[z])
-				this.outcome_extra[z.replace("extra_", "")] = this[z];
+				this.outcome_extra[z.replace("extra_", "").replace(/^\w/, c => c.toUpperCase())] = this[z];
 				delete this[z];
 			}
 		}

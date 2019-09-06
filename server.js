@@ -12,8 +12,6 @@ let config = new options();
 let mysql = new mysqlController(config.mysql);
 let api = mysqltorest(app,mysql.connection);
 
-
-
 app.engine('hbs', exphbs({extname:'hbs', defaultLayout:'main.hbs'}));
 app.set('view engine', 'hbs');
 
@@ -30,6 +28,8 @@ app.use(function(req, res, next){
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'assets')));
+
+
 
 let authRouter = require('./routes/auth');
 let homeRouter = require('./routes/home');

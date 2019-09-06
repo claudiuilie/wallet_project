@@ -25,8 +25,7 @@ $('#addExtra').click(function(){
 })
 
 function removeExtra(input) {
-    console.log(`${input}`)
-    input.remove()
+    input.remove();
 }
 
 

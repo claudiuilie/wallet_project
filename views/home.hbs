@@ -1,21 +1,26 @@
 
 <div style="padding: 2% ;">
-    <div class="card text-center" style="margin-bottom: 5px;" name="{{{pieData.month}}}" value="{{{pieData.year}}}">
+    <div class="card text-center" style="margin-bottom: 5px;" name="{{pieData.month}}" value="{{pieData.year}}">
         <div class="card-header">
             <div class="input-group">
-                <button class="btn btn-info dropdown-toggle btn-block" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    {{{pieData.month}}} {{{pieData.year}}}
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 100%;text-align: center;">
-                    {{#each progressData.labels}}
-                        <a class="dropdown-item" onclick="updateChart(this.text)">{{this}}</a>
-                    {{/each}}
-                </div>
+                <form  method="post" class="btn-block" action="/home" >
+                    <button class="btn btn-info dropdown-toggle btn-block" type="button"data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        {{{pieData.month}}} {{{pieData.year}}}
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 100%;text-align: center;">
+                        <input type="hidden" class="form-control" name="year" value="{{pieData.year}}">
+                        {{#each progressData.labels}}
+                            <input id="monthName" type="submit" class="form-control" name="month_name" value="{{this}}">
+                        {{/each}}
+                    </div>
+                </form>
             </div>
         </div>
         <div class="card-body">
             <canvas id="pieChart"></canvas></br>
-            <canvas id="extendedOutcomeChart"></canvas>
+            <div class="chart-container" style="position: relative; height:40vh; width:80vw">
+                <canvas id="extendedOutcomeChart"></canvas>
+            </div>
         </div>
         <div class="card-footer">
             <form  id ="formData" method="GET" action="/edit/income" >
@@ -32,9 +37,7 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="/js/chart.js"></script>
-    <script src="/js/chartUpdateController.js"></script>
     <script>
 
         var ctxPie = document.getElementById('pieChart');
@@ -83,10 +86,30 @@
                 }]
             },
             options: {
+                maintainAspectRatio: false,
+                devicePixelRatio:window.devicePixelRatio,
                 scales: {
                     yAxes: [{
+                        offset: true,
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            minRotation: 0,
+                            maxRotation: 50,
+                            mirror: false,
+                            padding: 0,
+                            reverse: false,
+                            display: true,
+                            autoSkip: false,
+                            autoSkipPadding: 0,
+                            labelOffset: 0
+                        },
+                        gridLines: {
+                            display: false
+                        }
+                    }],
+                    xAxes: [{
+                        gridLines: {
+                            display: false
                         }
                     }]
                 }
