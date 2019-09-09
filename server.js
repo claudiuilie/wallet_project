@@ -29,8 +29,6 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'assets')));
 
-
-
 let authRouter = require('./routes/auth');
 let homeRouter = require('./routes/home');
 let createRouter = require('./routes/create');

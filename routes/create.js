@@ -28,7 +28,7 @@ router.post('/income', (req, res, next) => {
                 if (results.length == 0) {
                     postData()
                 } else {
-                    res.render('createIncome', {testText: `Exista deja date pentru luna ${month.month_name} ${month.year}` , errorModal: 'show'});
+                    res.render('createIncome', {testText: `Exista deja date pentru ${month.month_name} ${month.year}` , errorModal: 'show'});
                 }
             }
         });

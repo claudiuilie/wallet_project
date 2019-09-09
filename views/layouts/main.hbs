@@ -14,13 +14,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-    <title>Example App</title>
+    <title>Income App</title>
 
 </head>
 
 <body id="page-top">
 
-<nav class="navbar navbar-expand-sm bg-secondary fixed-top" id="mainNav">
+    <nav class="navbar navbar-expand-sm bg-secondary fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand js-scroll-trigger" href="#page-top"></a>
         <button class="navbar-toggler navbar-toggler-center text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -52,13 +52,11 @@
     </div>
 </nav>
 
-
-<header class="masthead bg-primary text-white text-center" style="padding-top: 7em;padding-bottom: 2em;">
+    <header class="masthead bg-primary text-white text-center" style="padding-top: 7em;padding-bottom: 2em;">
     <div class="container  align-items-center flex-column">
         {{{body}}}
     </div>
 </header>
-
 
     <footer class="copyright text-center text-white">
         <div class="container">
@@ -70,30 +68,59 @@
         </div>
     </section>
 
-    <div class="modal fade" id="errorHandler" tabindex="-1" role="dialog" aria-labelledby="errorHandlerLabel" aria-hidden="true">
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="errorHandlerLabel">Modal title</h5>
-                    <button type="button" class="close closeErrorHandler" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                    <button type="button" class="close infoModalHandler" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"></span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <span id ="errorArrea">{{testText}}</span>
+                    <span id ="infoArea"><i class="fas fa-info-circle"></i> {{testText}}</span>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary closeErrorHandler" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger infoModalHandler" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addExtraModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content text-center">
+                <div class="modal-header">
+                    <strong id="exampleModalLabel" class="text-info">Add extra</strong>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">X</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="text-info" for="formGroupExampleInput">Details</label>
+                        <input id="addExtraOutcomeDetails" type="text" class="form-control"  placeholder="Outcome details" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-info" for="formGroupExampleInput">Value</label>
+                        <input id="addExtraOutcomeValue" type="number" class="form-control"  placeholder="Outcome value" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <div class="container">
+                    <button id = "addExtra" type="button" class="btn btn-block btn-primary" data-dismiss="modal">Add</button>
+                    <button type="button" class="btn btn-block btn-danger" data-dismiss="modal">Close</button>
+                </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
+    <script src="/js/addExtraController.js"></script>
     <script>
-    jQuery.noConflict();
-    $('#errorHandler').modal("{{errorModal}}")
+     let show ="{{errorModal}}" ;
+        if(show) {
+            jQuery.noConflict();
+            $('#infoModal').modal(show)
+        }
     </script>
 
 </body>
