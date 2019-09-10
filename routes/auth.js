@@ -25,6 +25,7 @@ router.post('/', (req, res, next) => {
                 if(passwordHash.verify(password, results[0].password)) {
                     req.session.loggedin = true;
                     req.session.username = results[0].username;
+                    req.session.avatar = results[0].avatar;
                     res.redirect('/home');
                 } else {
                     return next('Incorrect Password!');
