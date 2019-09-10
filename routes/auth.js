@@ -39,7 +39,3 @@ router.post('/', (req, res, next) => {
 
 module.exports = router;
 
-// console.log(passwordHash.verify('bulgaria188', 'sha1$f15aa13a$1$d21ad877e10446d0bb17c099b7cc1753e27911b2')); // true
-// console.log(passwordHash.verify('Password0', 'sha1$f15aa13a$1$d21ad877e10446d0bb17c099b7cc1753e27911b2')); // false
-
-
