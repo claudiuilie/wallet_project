@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
     if (!req.session.loggedin) res.redirect('/auth');
 
     else
-        res.render('create_wallet');
+        res.render('wallet_create');
 });
 
 router.post('/', (req, res, next) => {
@@ -28,7 +28,7 @@ router.post('/', (req, res, next) => {
                 if (results.length == 0) {
                     postData()
                 } else {
-                    res.render('create_wallet', {testText: `Exista deja date pentru ${month.month_name} ${month.year}` , errorModal: 'show'});
+                    res.render('wallet_create', {testText: `Exista deja date pentru ${month.month_name} ${month.year}` , errorModal: 'show'});
                 }
             }
         });
@@ -40,7 +40,7 @@ router.post('/', (req, res, next) => {
                 return next(error);
             } else {
                 if (results.affectedRows > 0 ) {
-                    res.render('create_wallet', {testText: `Success: affected rows ${results.affectedRows}` , errorModal: 'show'});
+                    res.render('wallet_create', {testText: `Success: affected rows ${results.affectedRows}` , errorModal: 'show'});
                 }
             }
         });

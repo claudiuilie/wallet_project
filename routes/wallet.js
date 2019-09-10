@@ -35,14 +35,14 @@ function builder(req,res,next, params){
                 let outcomeChart = new outcomeEntity(month);
                 progressChart.shortMonths();
 
-                res.render('home', {
+                res.render('wallet', {
                     pieData: pieChart,
                     outcomeData: outcomeChart,
                     progressData: progressChart
                 });
 
             } else {
-                res.render('home', {})
+                res.render('wallet', {})
             }
         });
     });

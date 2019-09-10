@@ -1,93 +1,97 @@
+<header class="masthead bg-primary text-white" style="padding-top: 7em;padding-bottom: 2em;">
+    <div class="container  align-items-center flex-column">
+        <div id="formWrapper">
+            <!--    form data -->
+            <div class="card" style="margin: 1%;">
+                <div class="card-header text-info">
+                    <a href ="/wallet"><button class="btn btn-info "><i class="far fa-arrow-alt-circle-left"></i></button></a>
+                </div>
+                <div class="card-body text-center">
+                    <form id ="formData" class="was-validated " method="POST" action="/wallet/create" >
+                        <div class="form-group ">
+                            <label class="text-info" for="formGroupExampleInput">Month</label>
+                            <select class="custom-select" required name="month_name">
+                                <option value="">Select month</option>
+                                <option value="January">January</option>
+                                <option value="February">February</option>
+                                <option value="March">March</option>
+                                <option value="April">April</option>
+                                <option value="May">May</option>
+                                <option value="June">June</option>
+                                <option value="July">July</option>
+                                <option value="August">August</option>
+                                <option value="September">September</option>
+                                <option value="October">Octobre</option>
+                                <option value="November">November</option>
+                                <option value="Decembre">Decembre</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" class="text-info" for="disabledYearInput">Year</label>
+                            <input type="number" id="disabledYearInput" class="form-control" name="year" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" style="color: #1c7430" for="formGroupExampleInput">Income Claudiu</label>
+                            <input type="number" class="form-control" name="income_claudiu" placeholder="Enter income" required>
 
-<div id="formWrapper">
-    <!--    form data -->
-    <div class="card" style="margin: 1%;">
-        <div class="card-header text-info" style="text-align: center;" >
-           <strong>Create new month</strong>
-        </div>
-        <div class="card-body">
-            <form id ="formData" class="was-validated " method="POST" action="/wallet/create" >
-                <div class="form-group ">
-                    <label class="text-info" for="formGroupExampleInput">Month</label>
-                    <select class="custom-select" required name="month_name">
-                        <option value="">Select month</option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">Octobre</option>
-                        <option value="November">November</option>
-                        <option value="Decembre">Decembre</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="text-info" class="text-info" for="disabledYearInput">Year</label>
-                    <input type="number" id="disabledYearInput" class="form-control" name="year" required>
-                </div>
-                <div class="form-group">
-                    <label class="text-info" style="color: #1c7430" for="formGroupExampleInput">Income Claudiu</label>
-                    <input type="number" class="form-control" name="income_claudiu" placeholder="Enter income" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Income Frumy</label>
+                            <input type="number" class="form-control" name="income_frumy" placeholder="Enter income" required>
 
-                </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Income Frumy</label>
-                    <input type="number" class="form-control" name="income_frumy" placeholder="Enter income" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Home Credit</label>
+                            <input type="number" class="form-control" name="outcome_casa" placeholder="Enter outcome" required>
 
-                </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Home Credit</label>
-                    <input type="number" class="form-control" name="outcome_casa" placeholder="Enter outcome" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Car Credit</label>
+                            <input type="number" class="form-control" name="outcome_masina" placeholder="Enter outcome" required>
 
-                </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Car Credit</label>
-                    <input type="number" class="form-control" name="outcome_masina" placeholder="Enter outcome" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Frumy's Credit</label>
+                            <input type="number" class="form-control" name="outcome_avans" placeholder="Enter outcome" required>
 
-                </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Frumy's Credit</label>
-                    <input type="number" class="form-control" name="outcome_avans" placeholder="Enter outcome" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Engie</label>
+                            <input type="number" class="form-control" name="outcome_engie" placeholder="Enter outcome" required>
 
-                </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Engie</label>
-                    <input type="number" class="form-control" name="outcome_engie" placeholder="Enter outcome" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Enel</label>
+                            <input type="number" class="form-control" name="outcome_enel" placeholder="Enter outcome" required>
 
-                </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Enel</label>
-                    <input type="number" class="form-control" name="outcome_enel" placeholder="Enter outcome" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Digi</label>
+                            <input type="number" class="form-control" name="outcome_digi" placeholder="Enter outcome" required>
 
-                </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Digi</label>
-                    <input type="number" class="form-control" name="outcome_digi" placeholder="Enter outcome" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Block maintenance </label>
+                            <input type="number" class="form-control" name="outcome_intretinere" placeholder="Enter outcome" required>
 
-                </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Block maintenance </label>
-                    <input type="number" class="form-control" name="outcome_intretinere" placeholder="Enter outcome" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Subscriptions</label>
+                            <input type="number" class="form-control" name="outcome_abonamente" placeholder="Enter outcome" required>
 
-                </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Subscriptions</label>
-                    <input type="number" class="form-control" name="outcome_abonamente" placeholder="Enter outcome" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="text-info" for="formGroupExampleInput">Holiday</label>
+                            <input type="number" class="form-control" name="outcome_vacanta" placeholder="Enter outcome" required>
 
+                        </div>
+                        <button type="button" class="btn btn-info btn-lg btn-block" id="addExtraButton" data-toggle="modal" data-target="#addExtraModal">Add Extra</button>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" >Submit</button>
+                    </form>
                 </div>
-                <div class="form-group">
-                    <label class="text-info" for="formGroupExampleInput">Holiday</label>
-                    <input type="number" class="form-control" name="outcome_vacanta" placeholder="Enter outcome" required>
-
-                </div>
-                <button type="button" class="btn btn-info btn-lg btn-block" id="addExtraButton" data-toggle="modal" data-target="#addExtraModal">Add Extra</button>
-                <button type="submit" class="btn btn-primary btn-lg btn-block" >Submit</button>
-            </form>
+            </div>
         </div>
     </div>
-</div>
+</header>
+
 

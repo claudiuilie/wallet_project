@@ -19,7 +19,7 @@ router.get('/', (req, res, next) => {
                 }
                 let month = new monthEntity()
                 month.getMonth(results[0])
-                res.render('edit_wallet', {month :month});
+                res.render('wallet_edit', {month :month});
             });
         } else {
             res.redirect('/home');

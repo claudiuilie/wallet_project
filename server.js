@@ -31,14 +31,18 @@ app.use(express.static(path.join(__dirname, 'assets')));
 
 let authRouter = require('./routes/auth');
 let homeRouter = require('./routes/home');
-let createRouter = require('./routes/create');
-let editRouter = require('./routes/edit');
+let homeControltRouter = require('./routes/home_control');
+let walletRouter = require('./routes/wallet');
+let createWalletRouter = require('./routes/wallet_create');
+let editWalletRouter = require('./routes/wallet_edit');
 let logoutRouter = require('./routes/logout');
 
 app.use('/auth', authRouter);
-app.use('/home', homeRouter);
-app.use('/create', createRouter);
-app.use('/edit', editRouter);
+app.use('/home',homeRouter);
+app.use('/control',homeControltRouter);
+app.use('/wallet', walletRouter);
+app.use('/wallet/create', createWalletRouter);
+app.use('/wallet/edit', editWalletRouter);
 app.use('/logout', logoutRouter);
 
 app.get('*', (req, res) => {
@@ -77,6 +81,8 @@ app.listen(config.server.port,config.server.host,() => console.log(`Listening ${
 // ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 //
 // INSERT INTO `accounts` (`id`, `username`, `password`, `email`) VALUES (1, 'test', 'test', 'test@test.com');
-//
+// INSERT INTO test.accounts (id, username, password, email) VALUES(null, 'frumy', 'test', 'test@test.com');
+// INSERT INTO test.accounts (id, username, password, email) VALUES(2, 'claudiu', 'test', 'test@test.com');
+
 // ALTER TABLE `accounts` ADD PRIMARY KEY (`id`);
 // ALTER TABLE `accounts` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;

@@ -19,54 +19,45 @@
 </head>
 
 <body id="page-top">
-
-    <nav class="navbar navbar-expand-sm bg-secondary fixed-top" id="mainNav">
+<nav class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top" id="mainNav">
     <div class="container">
-        <a class="navbar-brand js-scroll-trigger" href="#page-top"></a>
-        <button class="navbar-toggler navbar-toggler-center text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <i class="fas fa-bars"></i>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-                <div class="navbar-nav " style="float: left;">
-                <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/home">Home</a>
-                </li>
-                </div>
-                <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="/create/income">Create</a>
-                </li>
-                <li class="nav-item mx-0 mx-lg-1">
-                    <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-style: italic;">
-                        <i  class="fas fa-user"></i>
-                        {{session.username}}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">
-                        <a class="dropdown-item" href="#">My profile</a>
-                        <a class="dropdown-item" href="/logout">Logout</a>
-                    </div>
-                </li>
-                </li>
-            </ul>
+        <div class="w-25">
+            <a class="navbar-brand js-scroll-trigger" href="/home">
+                <img class="avatar" src="/img/home_icon2.png" alt="Home">
+            </a>
         </div>
+        <div class="dropdown">
+            <a class="nav-link rounded "  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img class="avatar" src="/img/{{session.username}}Avatar.png" alt="Avatar">
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">My Proile</a>
+                <a class="dropdown-item" href="/logout">Logout</a>
+            </div>
+        </div>
+<!--        <div>-->
+<!--            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-style: italic;">-->
+
+<!--                &lt;!&ndash;                        &ndash;&gt;-->
+<!--            </a>-->
+<!--            <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">-->
+<!--                <a class="dropdown-item" href="#">My profile</a>-->
+<!--                <a class="dropdown-item" href="/logout">Logout</a>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </nav>
 
-    <header class="masthead bg-primary text-white text-center" style="padding-top: 7em;padding-bottom: 2em;">
-    <div class="container  align-items-center flex-column">
         {{{body}}}
-    </div>
-</header>
+<!--    <footer class="copyright text-center text-white fixed-bottom">-->
+<!--        <div class="container">-->
+<!--    </footer>-->
 
-    <footer class="copyright text-center text-white">
-        <div class="container">
-    </footer>
-
-    <section class="copyright py-2 text-center text-white">
-        <div class="container">
-            <small>Copyright &copy; 2019</small>
-        </div>
-    </section>
+<!--<section class="copyright py-4 text-center text-white">-->
+<!--    <div class="container">-->
+<!--        <small>Copyright © Your Website 2019</small>-->
+<!--    </div>-->
+<!--</section>-->
 
     <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
@@ -122,6 +113,5 @@
             $('#infoModal').modal(show)
         }
     </script>
-
 </body>
 </html>
