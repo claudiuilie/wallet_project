@@ -7,15 +7,15 @@ const config = new options();
 let router = express.Router();
 let mysql = new mysqlController(config.mysql);
 
-router.get('/income', (req, res) => {
+router.get('/', (req, res) => {
 
     if (!req.session.loggedin) res.redirect('/auth');
 
     else
-        res.render('createIncome');
+        res.render('create_wallet');
 });
 
-router.post('/income', (req, res, next) => {
+router.post('/', (req, res, next) => {
 
     let month = new monthEntity();
     month.setMonth(req.body);
@@ -28,7 +28,7 @@ router.post('/income', (req, res, next) => {
                 if (results.length == 0) {
                     postData()
                 } else {
-                    res.render('createIncome', {testText: `Exista deja date pentru ${month.month_name} ${month.year}` , errorModal: 'show'});
+                    res.render('create_wallet', {testText: `Exista deja date pentru ${month.month_name} ${month.year}` , errorModal: 'show'});
                 }
             }
         });
@@ -40,7 +40,7 @@ router.post('/income', (req, res, next) => {
                 return next(error);
             } else {
                 if (results.affectedRows > 0 ) {
-                    res.render('createIncome', {testText: `Success: affected rows ${results.affectedRows}` , errorModal: 'show'});
+                    res.render('create_wallet', {testText: `Success: affected rows ${results.affectedRows}` , errorModal: 'show'});
                 }
             }
         });

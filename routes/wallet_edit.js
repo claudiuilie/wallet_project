@@ -7,8 +7,7 @@ const config = new options();
 let router = express.Router();
 let mysql = new mysqlController(config.mysql);
 
-
-router.get('/income', (req, res, next) => {
+router.get('/', (req, res, next) => {
 
     if (!req.session.loggedin) res.redirect('/auth');
 
@@ -20,7 +19,7 @@ router.get('/income', (req, res, next) => {
                 }
                 let month = new monthEntity()
                 month.getMonth(results[0])
-                res.render('editIncome', {month :month});
+                res.render('edit_wallet', {month :month});
             });
         } else {
             res.redirect('/home');
@@ -28,7 +27,7 @@ router.get('/income', (req, res, next) => {
     }
 });
 
-router.post('/income', (req, res, next) => {
+router.post('/', (req, res, next) => {
     let month = new monthEntity();
     month.setMonth(req.body);
 
@@ -37,7 +36,7 @@ router.post('/income', (req, res, next) => {
             return next(error);
         } else {
             if (results.affectedRows > 0 ) {
-                res.redirect('/home');
+                res.redirect('/wallet');
             }
         }
     });
