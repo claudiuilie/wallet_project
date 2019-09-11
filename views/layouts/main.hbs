@@ -35,29 +35,10 @@
                 <a class="dropdown-item" href="/logout">Logout</a>
             </div>
         </div>
-<!--        <div>-->
-<!--            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger dropdown-toggle" id="navbarDropdownMenuLink-333" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-style: italic;">-->
-
-<!--                &lt;!&ndash;                        &ndash;&gt;-->
-<!--            </a>-->
-<!--            <div class="dropdown-menu dropdown-menu-right dropdown-default" aria-labelledby="navbarDropdownMenuLink-333">-->
-<!--                <a class="dropdown-item" href="#">My profile</a>-->
-<!--                <a class="dropdown-item" href="/logout">Logout</a>-->
-<!--            </div>-->
-<!--        </div>-->
     </div>
 </nav>
 
         {{{body}}}
-<!--    <footer class="copyright text-center text-white fixed-bottom">-->
-<!--        <div class="container">-->
-<!--    </footer>-->
-
-<!--<section class="copyright py-4 text-center text-white">-->
-<!--    <div class="container">-->
-<!--        <small>Copyright © Your Website 2019</small>-->
-<!--    </div>-->
-<!--</section>-->
 
     <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-sm" role="document">
@@ -68,7 +49,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <span id ="infoArea"><i class="fas fa-info-circle"></i> {{testText}}</span>
+                    <span id ="infoArea"><i class="fas fa-info-circle"></i> {{message}}</span>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger infoModalHandler" data-dismiss="modal">Close</button>
@@ -107,7 +88,7 @@
 
     <script src="/js/addExtraController.js"></script>
     <script>
-     let show ="{{errorModal}}" ;
+     let show ="{{infoModal}}" ;
         if(show) {
             jQuery.noConflict();
             $('#infoModal').modal(show)

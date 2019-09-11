@@ -30,12 +30,19 @@ class mysqlController {
             })
     }
 
-    update(database, request, results) {
-        let querry = `UPDATE ${database} SET ? WHERE ? AND ?;`
-        this.connection.query(querry,[request,{'month_name': request.month_name}, {'year' : request.year}] ,(error,res)=> {
+    update(database, request, filters, results) {
+        let querry = `UPDATE ${database} SET ? WHERE `
+
+        for (let k in filters) {
+            querry += `${k} = '${filters[k]}'`;
+            if (Object.keys(filters).length > 1 && k !== Object.keys(filters).pop() ) {
+                querry += ' AND '
+            }
+        }
+
+        this.connection.query(querry,[request],(error,res)=> {
             return results(error,res);
         })
-
     }
 }
 

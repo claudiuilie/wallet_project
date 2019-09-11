@@ -27,16 +27,108 @@
             </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <p>Email</p>
-                <p>2</p>
-                <p>1</p>
+            <div class="tab-pane fade show active align-content-start" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                <p class="mt-2">Email: {{account.email}}</p>
             </div>
-            <div class="tab-pane fade tab-content" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">2</div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">3</div>
+                <div class="tab-pane fade tab-content " id="nav-profile" role="tabpanel" >2</div>
+                <div class="tab-pane fade container p-3" id="nav-contact" role="tabpanel" >
+                                <form method="post" id="passwordForm">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <span id="num" class="fas fa-times" style="color:#FF0004;"></span> One Number
+                                        </div>
+                                        <div class="col-sm-12">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <span id="pwmatch" class="fas fa-times" style="color:#FF0004;"></span> Passwords Match <br>
+                                            <span id="8char" class="fas fa-times" style="color:#FF0004;"></span> 8 Characters Long
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <span id="lcase" class="fas fa-times" style="color:#FF0004;"></span> One Lowercase Letter<br>
+                                            <span id="ucase" class="fas fa-times" style="color:#FF0004;"></span> One Uppercase Letter
+                                        </div>
+                                    </div><br>
+                                    <input type="hidden" class="form-control" name="username" value="{{session.username}}">
+                                    <input type="password" class="input-lg form-control" name="password" id="password1" placeholder="New Password" autocomplete="off" required></br>
+                                    <input type="password" class="input-lg form-control" name="paswordValidator" id="password2" placeholder="Repeat Password" autocomplete="off" required></br>
+                                    <button type="submit" id="changePasswordBtn" class=" btn btn-secondary btn-lg btn-block"  value="Change Password" disabled> Change Password
+                                </form>
+                        </div>
         </div>
     </div>
 </header>
+
+<script>
+    $("input[type=password]").keyup(function(){
+        var ucase = new RegExp("[A-Z]+");
+        var lcase = new RegExp("[a-z]+");
+        var num = new RegExp("[0-9]+");
+        var validator = 0;
+
+        if($("#password1").val().length >= 8){
+            $("#8char").removeClass("fas fa-times");
+            $("#8char").addClass("fas fa-check");
+            $("#8char").css("color","#00A41E");
+            validator++ ;
+        }else{
+            $("#8char").removeClass("fas fa-check");
+            $("#8char").addClass("fas fa-times");
+            $("#8char").css("color","#FF0004");
+        }
+
+        if(ucase.test($("#password1").val())){
+            $("#ucase").removeClass("fas fa-times");
+            $("#ucase").addClass("fas fa-check");
+            $("#ucase").css("color","#00A41E");
+            validator++ ;
+        }else{
+            $("#ucase").removeClass("fas fa-check");
+            $("#ucase").addClass("fas fa-times");
+            $("#ucase").css("color","#FF0004");
+        }
+
+        if(lcase.test($("#password1").val())){
+            $("#lcase").removeClass("fas fa-times");
+            $("#lcase").addClass("fas fa-check");
+            $("#lcase").css("color","#00A41E");
+            validator++;
+        }else{
+            $("#lcase").removeClass("fas fa-check");
+            $("#lcase").addClass("fas fa-times");
+            $("#lcase").css("color","#FF0004");
+        }
+
+        if(num.test($("#password1").val())){
+            $("#num").removeClass("fas fa-times");
+            $("#num").addClass("fas fa-check");
+            $("#num").css("color","#00A41E");
+            validator++ ;
+        }else{
+            $("#num").removeClass("fas fa-check");
+            $("#num").addClass("fas fa-times");
+            $("#num").css("color","#FF0004");
+
+        }
+
+        if($("#password1").val() == $("#password2").val() && $("#password2").val() != ''){
+            validator++ ;
+            $("#pwmatch").removeClass("fas fa-times");
+            $("#pwmatch").addClass("fas fa-check");
+            $("#pwmatch").css("color","#00A41E");
+            if (validator === 5) {
+                $("#changePasswordBtn").attr("disabled", false);
+            } else {
+                $("#changePasswordBtn").attr("disabled", true);
+            }
+
+        }else{
+            $("#pwmatch").removeClass("fas fa-check");
+            $("#pwmatch").addClass("fas fa-times");
+            $("#pwmatch").css("color","#FF0004");
+            $("#changePasswordBtn").attr("disabled", true);
+        }
+    });
+</script>
 
 
 
