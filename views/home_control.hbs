@@ -1,7 +1,86 @@
-<header class="masthead bg-white text-white text-center" style="padding-top: 7em;padding-bottom: 2em;">
 
-</header>
+<div class="container">
+    <header class="masthead bg-white text-white text-center" style="padding-top: 7em;padding-bottom: 2em;">
+        <section class="page-section portfolio" id="portfolio">
+            <div class="container">
+                <div class="row">
+                    {{#each sensors.sensors}}
+                    <div class="col-md-6 col-lg-4">
+                    <div class="portfolio-item mx-auto">
+                        <div class="card text-center text-primary">
+                            <div class="card-header">
+                                <span><i class="{{this.icon}}"></i></span></br>
+                            </div>
+                            <div class="card-body">
+                                <div class=" m-0 float-left">
+                                        <div class="">
+                                            <div class="container">
+                                                <div class="GaugeMeter" id="GaugeMeter_1"
+                                                     data-percent="{{this.tempProcent}}"
+                                                     data-min="0"
+                                                     data-total="60"
+                                                     data-text="{{this.temp}}&#8451"
+                                                     data-style="Arch"
+                                                     data-theme="Green-Gold-Red"
+                                                ></div>
+                                                <span> {{this.humidity}} &#8274</span></br>
+                                            </div>
+                                        </div>
 
-{{#each sensors.tempSensors}}
-    {{this.badge}}
-{{/each}}
+                                </div>
+                                <div class=" m-0 float-right">
+                                    {{#each this.relays}}
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input togle-relay" id="toggle-event{{this.name}}">
+                                            <label class="custom-control-label" for="toggle-event{{this.name}}">{{this.name}}</label>
+                                        </div>
+                                        <div id="console-event"></div>
+<!--                                     de facut metoda pt a rula scriptul pt orice element-->
+<!--                                        <script>-->
+<!--                                            $('#toggle-event').prop( "checked", {{this.status}} );-->
+<!--                                            $(function() {-->
+<!--                                                $('#toggle-event').change(function() {-->
+<!--                                                    $('#console-event').html('Toggle: ' + $(this).prop('checked'))-->
+<!--                                                    console.log($(this).prop('checked'))-->
+<!--                                                    console.log($(this).val())-->
+<!--                                                })-->
+<!--                                            })-->
+<!--                                        </script>-->
+<!--                                         de facut metoda pt a rula scriptul pt orice element-->
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    {{/each}}
+                    // row
+                </div>
+            </div>
+        </section>
+    </header>
+</div>
+
+<script src="/js/GaugeMeter.js"></script>
+<script>
+    $(document).ready(function(){
+        $(".GaugeMeter").gaugeMeter();
+    });
+</script>
+<script>
+    $('.togle-relay').click((elem)=>{
+        console.log(elem)
+    })
+</script>
+
+<!--"tempSensors": [-->
+<!--{ "temp": 20, "badge": "Bedroom Temp :", "unit": "°C" },-->
+<!--{ "temp": 20, "badge": "Livin Temp :", "unit": "°C" },-->
+<!--{ "temp": 20, "badge": "Kitchen Temp :", "unit": "°C" },-->
+<!--{ "temp": 20, "badge": "Bathroom Temp :", "unit": "°C" }],-->
+<!--"humiditySensors": [-->
+<!--{ "humidity": 20, "badge": "Bedroom humidity :", "unit": "%" },-->
+<!--{ "humidity": 20, "badge": "Living humidity :", "unit": "%" },-->
+<!--{ "humidity": 20, "badge": "Kitchen humidity :", "unit": "%" },-->
+<!--{ "humidity": 20, "badge": "Bathroom humidity :", "unit": "%" }],-->
+

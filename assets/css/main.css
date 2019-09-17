@@ -10848,7 +10848,7 @@ a.text-dark:hover {
 }
 
 .page-section .page-section-heading {
-    font-size: 2.25rem;
+    font-size: 1.5rem;
     line-height: 2rem
 }
 
@@ -10860,7 +10860,7 @@ a.text-dark:hover {
 }
 
 .divider-custom {
-    margin: 1.25rem 0 1.5rem;
+    margin-bottom: 1.5rem;
     width: 100%;
     display: -webkit-box;
     display: -ms-flexbox;
@@ -11027,7 +11027,7 @@ a.text-dark:hover {
     vertical-align: middle;
     width: 50px;
     height: 50px;
-    border-radius: 50%;
+    border-radius: 50%
 }
 
 @media (min-width:992px) {
@@ -11161,4 +11161,44 @@ form .row:first-child .floating-label-form-group {
 
 .copyright {
     background-color: #1a252f
+}
+
+.GaugeMeter{
+    Position:        Relative;
+    Text-Align:      Center;
+    Overflow:        Hidden;
+    Cursor:          Default;
+}
+
+.GaugeMeter SPAN,
+.GaugeMeter B{
+    Margin:          0 23%;
+    Width:           54%;
+    Position:        Absolute;
+    Text-align:      Center;
+    Display:         Inline-Block;
+    Color:           RGBa(0,0,0,.8);
+    Font-Weight:     100;
+    Font-Family:     "Open Sans", Arial;
+    Overflow:        Hidden;
+    White-Space:     NoWrap;
+    Text-Overflow:   Ellipsis;
+}
+.GaugeMeter[data-style="Semi"] B{
+    Margin:          0 10%;
+    Width:           80%;
+}
+
+.GaugeMeter S,
+.GaugeMeter U{
+    Text-Decoration: None;
+    Font-Size:       .5em;
+    Opacity:         .5;
+}
+
+.GaugeMeter B{
+    Color:           Black;
+    Font-Weight:     300;
+    Font-Size:       .5em;
+    Opacity:         .8;
 }
