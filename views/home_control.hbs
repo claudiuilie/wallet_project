@@ -31,21 +31,27 @@
                                 <div class=" m-0 float-right">
                                     {{#each this.relays}}
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input togle-relay" id="toggle-event{{this.name}}">
-                                            <label class="custom-control-label" for="toggle-event{{this.name}}">{{this.name}}</label>
+                                            <input type="checkbox" class="custom-control-input " id="toggle-event">
+                                            <label class="custom-control-label" for="toggle-event">{{this.name}}</label>
                                         </div>
                                         <div id="console-event"></div>
 <!--                                     de facut metoda pt a rula scriptul pt orice element-->
-<!--                                        <script>-->
-<!--                                            $('#toggle-event').prop( "checked", {{this.status}} );-->
-<!--                                            $(function() {-->
-<!--                                                $('#toggle-event').change(function() {-->
-<!--                                                    $('#console-event').html('Toggle: ' + $(this).prop('checked'))-->
-<!--                                                    console.log($(this).prop('checked'))-->
-<!--                                                    console.log($(this).val())-->
-<!--                                                })-->
-<!--                                            })-->
-<!--                                        </script>-->
+                                        <script>
+                                            $('#toggle-event').prop( "checked", {{this.status}} );
+                                            $(function() {
+                                                $('#toggle-event').change(function() {
+                                                    let relay;
+                                                    $('#console-event').html('Toggle: ' + $(this).prop('checked'))
+
+                                                    if ($(this).prop('checked')){
+                                                        relay = "FURNITURELED_ON"
+                                                    } else {
+                                                        relay = "FURNITURELED_OFF"
+                                                    }
+                                                    fetch(`http://192.168.1.200?${relay}`);
+                                                })
+                                            })
+                                        </script>
 <!--                                         de facut metoda pt a rula scriptul pt orice element-->
                                     {{/each}}
                                 </div>
