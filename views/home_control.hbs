@@ -8,53 +8,44 @@
                     <div class="col-md-6 col-lg-4">
                     <div class="portfolio-item mx-auto">
                         <div class="card text-center text-primary">
-                            <div class="card-header">
+                            <div class="card-header p-0">
                                 <span><i class="{{this.icon}}"></i></span></br>
                             </div>
                             <div class="card-body">
-                                <div class=" m-0 float-left">
-                                        <div class="">
-                                            <div class="container">
-                                                <div class="GaugeMeter" id="GaugeMeter_1"
-                                                     data-percent="{{this.tempProcent}}"
-                                                     data-min="0"
-                                                     data-total="60"
-                                                     data-text="{{this.temp}}&#8451"
-                                                     data-style="Arch"
-                                                     data-theme="Green-Gold-Red"
-                                                ></div>
-                                                <span> {{this.humidity}} &#8274</span></br>
-                                            </div>
-                                        </div>
+                                <div class="m-0">
+                                    <div class="container">
+                                        <div class="GaugeMeter float-left" id="GaugeMeter_1"
+                                            data-used="{{this.temp}}"
+                                            data-min="0"
+                                            data-total="40"
+                                            data-text="{{this.temp}}&#8451"
+                                            data-style="Arch"
+                                            data-theme="Green-Gold-Red"
+                                            data-label="Temperature"
+                                            data-showvalue="10"
 
+                                        ></div>
+                                        <div class="GaugeMeter float-right" id="GaugeMeter_2"
+                                            data-used="{{this.humidity}}"
+                                            data-min="0"
+                                            data-total="100"
+                                            data-text='{{this.humidity}}&#8274'
+                                            data-style="Arch"
+                                            data-theme="Green-Gold-Red"
+                                            data-label="Humidity"
+                                        ></div>
+                                    </div>
                                 </div>
-                                <div class=" m-0 float-right">
-                                    {{#each this.relays}}
-                                        <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input " id="toggle-event">
-                                            <label class="custom-control-label" for="toggle-event">{{this.name}}</label>
+                            </div>
+                            <div class="container p-2">
+                                {{#each this.relays}}
+                                    <div class="container ">
+                                        <div class="custom-control custom-switch "">
+                                            <input type="checkbox" class="custom-control-input " id="{{this.id}}" onclick="switchHandler(this)" {{#if this.status}}checked{{/if}}>
+                                            <label class="custom-control-label" for="{{this.id}}"><span>{{this.name}}</span></label>
                                         </div>
-                                        <div id="console-event"></div>
-<!--                                     de facut metoda pt a rula scriptul pt orice element-->
-                                        <script>
-                                            $('#toggle-event').prop( "checked", {{this.status}} );
-                                            $(function() {
-                                                $('#toggle-event').change(function() {
-                                                    let relay;
-                                                    $('#console-event').html('Toggle: ' + $(this).prop('checked'))
-
-                                                    if ($(this).prop('checked')){
-                                                        relay = "FURNITURELED_ON"
-                                                    } else {
-                                                        relay = "FURNITURELED_OFF"
-                                                    }
-                                                    fetch(`http://192.168.1.200?${relay}`);
-                                                })
-                                            })
-                                        </script>
-<!--                                         de facut metoda pt a rula scriptul pt orice element-->
-                                    {{/each}}
-                                </div>
+                                    </div>   
+                                {{/each}}
                             </div>
                         </div>
                     </div>
@@ -72,21 +63,19 @@
     $(document).ready(function(){
         $(".GaugeMeter").gaugeMeter();
     });
-</script>
-<script>
-    $('.togle-relay').click((elem)=>{
-        console.log(elem)
-    })
+
+    function switchHandler(elem) {
+
+        blockControl(elem);
+
+         $.ajax({
+             method: "POST",
+             url : "/control",
+             data: {"relayId": elem.id, "status": elem.checked}
+         }).done(function(){
+             unblockControl(elem)
+         })
+    }
 </script>
 
-<!--"tempSensors": [-->
-<!--{ "temp": 20, "badge": "Bedroom Temp :", "unit": "°C" },-->
-<!--{ "temp": 20, "badge": "Livin Temp :", "unit": "°C" },-->
-<!--{ "temp": 20, "badge": "Kitchen Temp :", "unit": "°C" },-->
-<!--{ "temp": 20, "badge": "Bathroom Temp :", "unit": "°C" }],-->
-<!--"humiditySensors": [-->
-<!--{ "humidity": 20, "badge": "Bedroom humidity :", "unit": "%" },-->
-<!--{ "humidity": 20, "badge": "Living humidity :", "unit": "%" },-->
-<!--{ "humidity": 20, "badge": "Kitchen humidity :", "unit": "%" },-->
-<!--{ "humidity": 20, "badge": "Bathroom humidity :", "unit": "%" }],-->
 
