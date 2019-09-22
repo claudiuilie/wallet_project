@@ -4,7 +4,7 @@
         <section class="page-section portfolio" id="portfolio">
             <div class="container">
                 <div class="row">
-                    {{#each sensors.sensors}}
+                    {{#each sensors}}
                     <div class="col-md-6 col-lg-4">
                     <div class="portfolio-item mx-auto">
                         <div class="card text-center text-primary">
@@ -40,7 +40,7 @@
                             <div class="container p-2">
                                 {{#each this.relays}}
                                     <div class="container ">
-                                        <div class="custom-control custom-switch "">
+                                        <div class="custom-control custom-switch">
                                             <input type="checkbox" class="custom-control-input " id="{{this.id}}" onclick="switchHandler(this)" {{#if this.status}}checked{{/if}}>
                                             <label class="custom-control-label" for="{{this.id}}"><span>{{this.name}}</span></label>
                                         </div>
@@ -67,7 +67,7 @@
     function switchHandler(elem) {
 
         blockControl(elem);
-
+         console.log(elem.checked)
          $.ajax({
              method: "POST",
              url : "/control",

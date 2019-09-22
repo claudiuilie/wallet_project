@@ -10,13 +10,13 @@ router.get('/',(req,res, next) => {
     if (!req.session.loggedin) res.redirect('/auth');
 
     else {
-        request(config.arduino.host,  (error, response, body) => {
+        request(`${config.arduino.host}/sensors`,  (error, response, body) => {
             if(error) {
                 return next(error);
             }
             jsonData = JSON.parse(body);
             res.render('home_control',{
-                sensors: jsonData
+                sensors: JSON.parse(jsonData.sensors)
             });
         });
 
@@ -77,14 +77,14 @@ router.post('/', (req,res,next) => {
 
     else {
         let param;
-        if(req.body.status === true) {
-            param = "http://192.168.1.200/?FURNITURELED_ON"
+
+        if (req.body.status == 'true') {
+            param = `/digital/${req.body.relayId}/1`
         } else {
-            param = "http://192.168.1.200/?FURNITURELED_OFF"
+            param = `/digital/${req.body.relayId}/0`
         }
-        console.log(req.body.status);
-        console.log(param)
-        request(param,  (error, response, body) => {
+
+        request(config.arduino.host+param,  (error, response, body) => {
             if(error) {
                 return next(error);
             }
