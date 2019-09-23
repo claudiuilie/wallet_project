@@ -1,8 +1,6 @@
-<header class="masthead bg-primary text-white text-center" style="padding-top: 7em;padding-bottom: 2em;">
-    <div class="container  align-items-center flex-column">
-        <div style="padding: 2% ;">
-            <div class="card text-center" style="margin-bottom: 5px;" name="{{pieData.month}}" value="{{pieData.year}}">
-                <div class="card-header">
+<header class="masthead bg-wallet text-white text-center container  align-items-center flex-column" style="padding-top: 7em;padding-bottom: 2em; ">
+            <div class="card text-center bg-white mb-2 "  name="{{pieData.month}}" value="{{pieData.year}}">
+                <div class="card-header border-0">
                     <div class="input-group">
                         <form  method="post" class="btn-block" action="/wallet" >
                             <button class="btn btn-info dropdown-toggle btn-block" type="button"data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -25,7 +23,7 @@
                         <canvas id="extendedOutcomeChart"></canvas>
                     </div>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer border-0">
                     <div>
                         <form  id ="formData" method="GET" action="/wallet/edit" >
                             <input id="monthName" type="hidden" class="form-control" name="month_name" value="{{{pieData.month}}}">
@@ -142,8 +140,7 @@
                 });
             </script>
 
-        </div>
-    </div>
+
 </header>
 
 

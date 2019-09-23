@@ -3,14 +3,10 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const exphbs  = require('express-handlebars');
-const mysqltorest  = require('mysql-to-rest');
-const mysqlController = require('./assets/js/mysqlController');
 const options = require('./assets/config/config');
 
 let app = express();
 let config = new options();
-let mysql = new mysqlController(config.mysql);
-let api = mysqltorest(app,mysql.connection);
 
 app.engine('hbs', exphbs({extname:'hbs', defaultLayout:'main.hbs'}));
 app.set('view engine', 'hbs');

@@ -22,8 +22,8 @@ router.get('/',(req,res, next) => {
 
         // / manual data ///
         // temp: variabila cu temperatura senzorului
-        // jsonData = {
-        //     "sensors":[
+        // jsonData = 
+        //     [
         //         {
         //             "temp":25,
         //             "tempProcent": (25/50)*100,
@@ -65,7 +65,7 @@ router.get('/',(req,res, next) => {
         //             "relays": []
         //         }
         //     ]
-        // };
+        // ;
         // res.render('home_control',{
         //     sensors: jsonData
         // });
