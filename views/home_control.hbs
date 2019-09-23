@@ -41,7 +41,7 @@
                                 {{#each this.relays}}
                                     <div class="container ">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input " id="{{this.id}}" onclick="switchHandler(this)" {{#if this.status}}checked{{/if}}>
+                                            <input type="checkbox" class="custom-control-input " id="{{this.id}}" onclick="switchHandler(this)" {{#if this.status}}checked{{/if}}  {{#if this.webhook}} value ="{{this.webhook}}" {{else}} value="" {{/if}}>
                                             <label class="custom-control-label" for="{{this.id}}"><span>{{this.name}}</span></label>
                                         </div>
                                     </div>   
@@ -67,11 +67,11 @@
     function switchHandler(elem) {
 
         blockControl(elem);
-         console.log(elem.checked)
+
          $.ajax({
              method: "POST",
              url : "/control",
-             data: {"relayId": elem.id, "status": elem.checked}
+             data: {"relayId": elem.id, "status": elem.checked, "webhook": elem.value}
          }).done(function(){
              unblockControl(elem)
          })

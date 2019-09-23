@@ -40,7 +40,8 @@ router.get('/',(req,res, next) => {
         //                 {
         //                     "status" : false,
         //                     "name" : "Living lights",
-        //                     "id" : 1
+        //                     "id" : 1,
+        //                     "webhook": "living_lights_"
         //                 }
         //             ]
         //         },
@@ -76,21 +77,58 @@ router.post('/', (req,res,next) => {
     if (!req.session.loggedin) res.redirect('/auth');
 
     else {
-        let param;
+        let url;
+        console.log(req.body.webhook);
 
-        if (req.body.status == 'true') {
-            param = `/digital/${req.body.relayId}/1`
+        if (req.body.webhook) {
+            if (req.body.status == 'true') 
+                url = `${config.webhook.uri}${req.body.webhook}on${config.webhook.key}`
+            else    
+                url = `${config.webhook.uri}${req.body.webhook}off${config.webhook.key}`
+
         } else {
-            param = `/digital/${req.body.relayId}/0`
+
+            if (req.body.status == 'true' && !req.body.webhook) 
+                url = `${config.arduino.host}/digital/${req.body.relayId}/1`
+            else 
+                url = `${config.arduino.host}/digital/${req.body.relayId}/0`
         }
 
-        request(config.arduino.host+param,  (error, response, body) => {
+        request(url,  (error, response, body) => {
             if(error) {
                 return next(error);
             }
-        res.send('ok')
+        console.log(response.body);
+        res.send(response);
         });
     }
 });
 
 module.exports = router;
+
+
+
+
+// class Config {
+//     constructor () {
+//         this.mysql = {
+//             host: 'localhost',
+//             user: 'root',
+//             password:'',
+//             database: 'test'
+//         }
+//         this.server = {
+//             host:'localhost',
+//             port:8000
+//         }
+//         this.arduino = {
+//             host: 'http://192.168.1.200'
+//         }
+//         this.webhook = {
+//             uri: 'https://maker.ifttt.com/trigger/',
+//             key:'/with/key/bJjeDiN4hyh_X4V2UdowDd'
+//         }
+//     }
+// }
+
+// module.exports = Config;
