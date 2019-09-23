@@ -78,27 +78,37 @@ router.post('/', (req,res,next) => {
 
     else {
         let url;
+        let webhookurl;
         console.log(req.body.webhook);
 
         if (req.body.webhook) {
-            if (req.body.status == 'true') 
-                url = `${config.webhook.uri}${req.body.webhook}on${config.webhook.key}`
-            else    
-                url = `${config.webhook.uri}${req.body.webhook}off${config.webhook.key}`
+            if (req.body.status == 'true') {
+                url = `${config.webhook.uri}${req.body.webhook}on${config.webhook.key}`;
+                webhookurl = `${config.arduino.host}/webhook?param=1`;
+
+            } else {
+                url = `${config.webhook.uri}${req.body.webhook}off${config.webhook.key}`;
+                webhookurl = `${config.arduino.host}/webhook?param=0`;
+
+            }
+            request(webhookurl, (err,res,data) => {
+                if(err)
+                    return next(err);
+            });
 
         } else {
 
             if (req.body.status == 'true' && !req.body.webhook) 
-                url = `${config.arduino.host}/digital/${req.body.relayId}/1`
+                url = `${config.arduino.host}/digital/${req.body.relayId}/1`;
             else 
-                url = `${config.arduino.host}/digital/${req.body.relayId}/0`
+                url = `${config.arduino.host}/digital/${req.body.relayId}/0`;
         }
 
         request(url,  (error, response, body) => {
             if(error) {
                 return next(error);
             }
-        console.log(response.body);
+
         res.send(response);
         });
     }
