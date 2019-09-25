@@ -47,6 +47,8 @@ app.get('*', (req, res) => {
     res.redirect('/home');
 });
 
+
+
 app.listen(config.server.port,config.server.host,() => console.log(`Listening ${config.server.host}:${config.server.port}`));
 
 // CREATE TABLE `income` (

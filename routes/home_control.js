@@ -2,9 +2,30 @@ const express = require('express');
 const request = require('request');
 const options = require('../assets/config/config');
 
+
+
+
 let config = new options();
 let router = express.Router();
 let jsonData;
+// ewelink api
+const ewelink = require('ewelink-api');
+
+(async () => {
+
+    const conn = new ewelink({
+        email: 'claudiu.ilie0322@gmail.com',
+        password: 'Bulgaria188',
+    });
+    try{
+        /* get all devices */
+        const devices = await conn.getDevices();
+        console.log(devices);
+    }
+    catch(err){
+        console.log(err)
+    }
+})();
 
 router.get('/',(req,res, next) => {
     if (!req.session.loggedin) res.redirect('/auth');
