@@ -1,7 +1,7 @@
 const express = require('express');
 const request = require('request');
 const options = require('../assets/config/config');
-
+const ewelink = require('ewelink-api');
 
 
 
@@ -9,23 +9,9 @@ let config = new options();
 let router = express.Router();
 let jsonData;
 // ewelink api
-const ewelink = require('ewelink-api');
 
-(async () => {
 
-    const conn = new ewelink({
-        email: 'claudiu.ilie0322@gmail.com',
-        password: 'Bulgaria188',
-    });
-    try{
-        /* get all devices */
-        const devices = await conn.getDevices();
-        console.log(devices);
-    }
-    catch(err){
-        console.log(err)
-    }
-})();
+
 
 router.get('/',(req,res, next) => {
     if (!req.session.loggedin) res.redirect('/auth');
@@ -99,39 +85,56 @@ router.post('/', (req,res,next) => {
 
     else {
         let url;
-        let webhookurl;
-        console.log(req.body.webhook);
+        let sonoffStatus;
 
         if (req.body.webhook) {
             if (req.body.status == 'true') {
-                url = `${config.webhook.uri}${req.body.webhook}on${config.webhook.key}`;
-                webhookurl = `${config.arduino.host}/webhook?param=1`;
-
+                sonoffStatus = 'on';
             } else {
-                url = `${config.webhook.uri}${req.body.webhook}off${config.webhook.key}`;
-                webhookurl = `${config.arduino.host}/webhook?param=0`;
-
+                sonoffStatus= 'off';
             }
-            request(webhookurl, (err,res,data) => {
-                if(err)
-                    return next(err);
-            });
+            (async () => {
+    // de bagat in arduino id-ul switchului si de pus in configi user si pass
+                const connection = new ewelink(config.eWelink);
+                try{
+
+                    /* get all devices */
+                    // const devices = await connection.getDevices();
+                    // console.log(devices);
+
+                    /* get specific devi info */
+                    // const device = await connection.getDevice('100062aeb3');
+                    // console.log(device);
+
+                    //status
+                    // const status = await connection.getDevicePowerState('100062aeb3');
+                    // console.log(status);
+
+                    // change status
+                    const status = await connection.setDevicePowerState('100062aeb3', sonoffStatus);
+                    res.send(status);
+                }
+                catch(err){
+                    next(err);
+                }
+            })();
 
         } else {
 
-            if (req.body.status == 'true' && !req.body.webhook) 
+            if (req.body.status == 'true' && !req.body.webhook)
                 url = `${config.arduino.host}/digital/${req.body.relayId}/1`;
             else 
                 url = `${config.arduino.host}/digital/${req.body.relayId}/0`;
+
+            request(url,  (error, response, body) => {
+                if(error) {
+                    return next(error);
+                }
+
+                res.send(response);
+            });
         }
 
-        request(url,  (error, response, body) => {
-            if(error) {
-                return next(error);
-            }
-
-        res.send(response);
-        });
     }
 });
 

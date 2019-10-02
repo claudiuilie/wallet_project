@@ -13,7 +13,7 @@ class ProgressChart {
     }
 
     shortMonths() {
-        let allMonths = ["December", "November", "October", "September", "August", "July", "June", "May", "April", "March", "February", "January"];
+        let allMonths = ["december", "november", "october", "september", "august", "july", "june", "may", "april", "march", "february", "january"];
         this.labels.sort(function(a,b){
             return allMonths.indexOf(a) - allMonths.indexOf(b);
         });

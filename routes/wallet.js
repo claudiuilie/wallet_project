@@ -22,6 +22,7 @@ function builder(req,res,next, params){
             return next(error);
         }
         year = results;
+
         progressChart = new progressEntity(year);
         mysql.select('income' ,params,(error,results)=>{
             if(error) {
@@ -34,7 +35,6 @@ function builder(req,res,next, params){
                 let pieChart = new pieEntity(month);
                 let outcomeChart = new outcomeEntity(month);
                 progressChart.shortMonths();
-
                 res.render('wallet', {
                     pieData: pieChart,
                     outcomeData: outcomeChart,
