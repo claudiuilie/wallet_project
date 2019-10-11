@@ -11,8 +11,6 @@ let jsonData;
 // ewelink api
 
 
-
-
 router.get('/',(req,res, next) => {
     if (!req.session.loggedin) res.redirect('/auth');
 
@@ -87,14 +85,17 @@ router.post('/', (req,res,next) => {
         let url;
         let sonoffStatus;
 
-        if (req.body.webhook) {
+        if (req.body.switch) {
+
             if (req.body.status == 'true') {
                 sonoffStatus = 'on';
+                url = `${config.arduino.host}/sonoff?status=1`;
             } else {
                 sonoffStatus= 'off';
+                url = `${config.arduino.host}/sonoff?status=0`;
             }
             (async () => {
-    // de bagat in arduino id-ul switchului si de pus in configi user si pass
+
                 const connection = new ewelink(config.eWelink);
                 try{
 
@@ -107,11 +108,12 @@ router.post('/', (req,res,next) => {
                     // console.log(device);
 
                     //status
-                    // const status = await connection.getDevicePowerState('100062aeb3');
-                    // console.log(status);
+                    // const statuss = await connection.getDevicePowerState(req.body.relayId);
+                    // console.log(statuss);
+                    // res.send(statuss);
 
                     // change status
-                    const status = await connection.setDevicePowerState('100062aeb3', sonoffStatus);
+                    const status = await connection.setDevicePowerState(req.body.relayId, sonoffStatus);
                     res.send(status);
                 }
                 catch(err){
@@ -119,14 +121,20 @@ router.post('/', (req,res,next) => {
                 }
             })();
 
+            request(url,  (error) => {
+                if(error) {
+                    return next(error);
+                }
+            });
+
         } else {
 
-            if (req.body.status == 'true' && !req.body.webhook)
+            if (req.body.status == 'true' && !req.body.switch)
                 url = `${config.arduino.host}/digital/${req.body.relayId}/1`;
             else 
                 url = `${config.arduino.host}/digital/${req.body.relayId}/0`;
 
-            request(url,  (error, response, body) => {
+            request(url,  (error, response) => {
                 if(error) {
                     return next(error);
                 }

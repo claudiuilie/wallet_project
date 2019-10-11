@@ -44,7 +44,7 @@ app.use('/wallet/edit', editWalletRouter);
 app.use('/logout', logoutRouter);
 
 app.get('*', (req, res) => {
-    res.redirect('/home');
+    res.render('home',{layout:'error.hbs'});
 });
 
 app.listen(config.server.port,config.server.host,() => console.log(`Listening ${config.server.host}:${config.server.port}`));

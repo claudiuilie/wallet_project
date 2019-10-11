@@ -71,7 +71,7 @@
          $.ajax({
              method: "POST",
              url : "/control",
-             data: {"relayId": elem.id, "status": elem.checked, "webhook": elem.value}
+             data: {"relayId": elem.id, "status": elem.checked, "switch": elem.value}
          }).done(function(){
              unblockControl(elem)
          })
