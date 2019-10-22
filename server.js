@@ -25,14 +25,15 @@ app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'assets')));
 
-let authRouter = require('./routes/auth');
-let homeRouter = require('./routes/home');
-let profileRouter = require('./routes/profile');
-let homeControltRouter = require('./routes/home_control');
-let walletRouter = require('./routes/wallet');
-let createWalletRouter = require('./routes/wallet_create');
-let editWalletRouter = require('./routes/wallet_edit');
-let logoutRouter = require('./routes/logout');
+const authRouter = require('./routes/auth');
+const homeRouter = require('./routes/home');
+const profileRouter = require('./routes/profile');
+const homeControltRouter = require('./routes/home_control');
+const walletRouter = require('./routes/wallet');
+const createWalletRouter = require('./routes/wallet_create');
+const editWalletRouter = require('./routes/wallet_edit');
+const vacationsRouter = require('./routes/vacations');
+const logoutRouter = require('./routes/logout');
 
 app.use('/auth', authRouter);
 app.use('/home',homeRouter);
@@ -41,6 +42,7 @@ app.use('/control',homeControltRouter);
 app.use('/wallet', walletRouter);
 app.use('/wallet/create', createWalletRouter);
 app.use('/wallet/edit', editWalletRouter);
+app.use('/vacations', vacationsRouter);
 app.use('/logout', logoutRouter);
 
 app.get('*', (req, res) => {
