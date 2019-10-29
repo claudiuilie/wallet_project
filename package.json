@@ -16,10 +16,11 @@
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.16.2",
-    "handlebars": "^4.1.2",
+    "handlebars": "^4.5.1",
     "hoek": ">=4.2.1",
     "mysql": "^2.17.1",
     "mysql-to-rest": "^1.0.8",
+    "node-cron": "^2.0.3",
     "nodemailer": "^6.3.0",
     "password-hash": "^1.2.2",
     "request": "^2.81.0"

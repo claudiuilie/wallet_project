@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const exphbs  = require('express-handlebars');
 const options = require('./assets/config/config');
+const cron = require('./assets/crons/temperatureCron');
+const temperatureCron = new cron();
 
 let app = express();
 let config = new options();
@@ -82,3 +84,35 @@ app.listen(config.server.port,config.server.host,() => console.log(`Listening ${
 
 // ALTER TABLE `accounts` ADD PRIMARY KEY (`id`);
 // ALTER TABLE `accounts` MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+
+
+// CREATE TABLE `temperature_monitor` (
+//     `id` int(11) NOT NULL AUTO_INCREMENT,
+//     `0` varchar(1024) DEFAULT NULL,
+//     `1` varchar(1024) DEFAULT NULL,
+//     `2` varchar(1024) DEFAULT NULL,
+//     `3` varchar(1024) DEFAULT NULL,
+//     `4` varchar(1024) DEFAULT NULL,
+//     `5` varchar(1024) DEFAULT NULL,
+//     `6` varchar(1024) DEFAULT NULL,
+//     `7` varchar(1024) DEFAULT NULL,
+//     `8` varchar(1024) DEFAULT NULL,
+//     `9` varchar(1024) DEFAULT NULL,
+//     `10` varchar(1024) DEFAULT NULL,
+//     `11` varchar(1024) DEFAULT NULL,
+//     `12` varchar(1024) DEFAULT NULL,
+//     `13` varchar(1024) DEFAULT NULL,
+//     `14` varchar(1024) DEFAULT NULL,
+//     `15` varchar(1024) DEFAULT NULL,
+//     `16` varchar(1024) DEFAULT NULL,
+//     `17` varchar(1024) DEFAULT NULL,
+//     `18` varchar(1024) DEFAULT NULL,
+//     `19` varchar(1024) DEFAULT NULL,
+//     `20` varchar(1024) DEFAULT NULL,
+//     `21` varchar(1024) DEFAULT NULL,
+//     `22` varchar(1024) DEFAULT NULL,
+//     `23` varchar(1024) DEFAULT NULL,
+//     `update` datetime DEFAULT NULL,
+//     `date` date NOT NULL,
+//     PRIMARY KEY (`id`)
+// ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1
