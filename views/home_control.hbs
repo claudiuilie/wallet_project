@@ -6,52 +6,60 @@
                 <div class="row">
                     {{#each sensors}}
                     <div class="col-md-6 col-lg-4">
-                    <div class="portfolio-item mx-auto">
-                        <div class="card text-center text-primary">
-                            <div class="card-header p-0">
-                                <span><i class="{{this.icon}}"></i></span></br>
-                            </div>
-                            <div class="card-body">
-                                <div class="m-0">
-                                    <div class="container">
-                                        <div class="GaugeMeter float-left" id="GaugeMeter_1"
-                                            data-used="{{this.temp}}"
-                                            data-min="0"
-                                            data-total="40"
-                                            data-text="{{this.temp}}&#8451"
-                                            data-style="Arch"
-                                            data-theme="Green-Gold-Red"
-                                            data-label="Temperature"
-                                            data-showvalue="10"
-
-                                        ></div>
-                                        <div class="GaugeMeter float-right" id="GaugeMeter_2"
-                                            data-used="{{this.humidity}}"
-                                            data-min="0"
-                                            data-total="100"
-                                            data-text='{{this.humidity}}&#8274'
-                                            data-style="Arch"
-                                            data-theme="Green-Gold-Red"
-                                            data-label="Humidity"
-                                        ></div>
+                        <div class="portfolio-item mx-auto">
+                            <div class="card text-center text-primary">
+                                <div class="card-header p-0">
+                                    <span><i class="{{this.icon}}"></i></span></br>
+                                </div>
+                                <div class="card-body">
+                                    <div class="m-0">
+                                        <div class="container">
+                                            <div class="GaugeMeter float-left" id="GaugeMeter_1" data-used="{{this.temp}}"
+                                                data-min="0" data-total="40" data-text="{{this.temp}}&#8451" data-style="Arch"
+                                                data-theme="Green-Gold-Red" data-label="Temperature" data-showvalue="10"></div>
+                                            <div class="GaugeMeter float-right" id="GaugeMeter_2" data-used="{{this.humidity}}"
+                                                data-min="0" data-total="100" data-text='{{this.humidity}}&#8274' data-style="Arch"
+                                                data-theme="Green-Gold-Red" data-label="Humidity"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="container p-2">
-                                {{#each this.relays}}
+                                <div class="container p-2">
+                                    {{#each this.relays}}
                                     <div class="container ">
                                         <div class="custom-control custom-switch">
-                                            <input type="checkbox" class="custom-control-input " id="{{this.id}}" onclick="switchHandler(this)" {{#if this.status}}checked{{/if}}  {{#if this.webhook}} value ="{{this.webhook}}" {{else}} value="" {{/if}}>
+                                            <input type="checkbox" class="custom-control-input " id="{{this.id}}"
+                                                onclick="switchHandler(this)" {{#if this.status}}checked{{/if}} {{#if this.webhook}}
+                                                value="{{this.webhook}}" {{else}} value="" {{/if}}>
                                             <label class="custom-control-label" for="{{this.id}}"><span>{{this.name}}</span></label>
                                         </div>
-                                    </div>   
-                                {{/each}}
+                                    </div>
+                                    {{/each}}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                     {{/each}}
                     // row
+                    <div class="col-md-6 col-lg-4">
+                        <div class="portfolio-item mx-auto">
+                            <div class="card text-center text-primary">
+                                <div class="card-header p-0">
+                                    <span><i>temperature history</i></span></br>
+                                </div>
+                                <div class="card-body">
+                                    <div class="m-0">
+                                        <div class="container">
+            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container p-2">
+            
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    // temp history
                 </div>
             </div>
         </section>
@@ -78,4 +86,4 @@
     }
 </script>
 
-
+ 

@@ -4,10 +4,12 @@ const options = require('../config/config');
 const connection = require('mysql');
 const config = new options();
 const mysql = connection.createConnection(config.mysql);
+const DateAndTime = require('../entity/date');
+const Date = new DateAndTime();
 
 let params = {};
 let weatherParams = {};
-let date,year,month,day,hours,timestamp,currentDate,paramsIndex, query;
+let paramsIndex, query, currentDate;
 
 let mock = "http://www.mocky.io/v2/5dbac0d23000003dc60291b5"
 
@@ -122,15 +124,8 @@ class temperatureCron {
         
         cron.schedule(config.crons.temperatureCron.interval, () => {
             console.log('1')
-
-             date = new Date();
-             year = date.getFullYear();
-             month = date.getMonth()+1;
-             day = date.getDate();
-             hours = date.getHours();
-             currentDate = `${year}-${month}-${day}`
-
-             paramsIndex = `hours_${hours}`;
+            currentDate = Date.getCurrentDate();
+            paramsIndex = `hours_${Date.getHours()}`;
 
 //arduino request
             request(`${config.arduino.host}/sensors`,  (error, response, body) => {
@@ -174,10 +169,10 @@ class temperatureCron {
 
 
                params[paramsIndex] = arduSensors
-               params[paramsIndex].push({"timestamp":date.toLocaleTimeString()}) 
+               params[paramsIndex].push({"timestamp": Date.getTimestamp()}) 
 
                weatherParams[paramsIndex] = weatherSensors
-               weatherParams[paramsIndex].push({"timestamp":date.toLocaleTimeString()}) 
+               weatherParams[paramsIndex].push({"timestamp":Date.getTimestamp()}) 
 
 // select dupa raspuns din arduino/weather api
                sql.query(sql.querys.check(paramsIndex),[currentDate, 'sensors'], (error,res)=>{
@@ -240,7 +235,10 @@ module.exports = temperatureCron;
                 key: "cd86b6b78b174125bfddf3cc26d7105a",
                 units: "metric"
             }
-
+        this.mysqlTables = {
+            tempMonitor: 'temperature_monitor',
+            tempMonitorLogs: 'temperature_monitor_logs'
+        }
 
 */
 
