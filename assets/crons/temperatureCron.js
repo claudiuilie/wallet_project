@@ -221,6 +221,57 @@ module.exports = temperatureCron;
 // ) ENGINE=InnoDB AUTO_INCREMENT=415 DEFAULT CHARSET=latin1;
 
 
+// CREATE TABLE `accounts` (
+//     `id` int(11) NOT NULL AUTO_INCREMENT,
+//     `username` varchar(50) NOT NULL,
+//     `password` varchar(255) NOT NULL,
+//     `email` varchar(100) NOT NULL,
+//     `avatar` text,
+//     PRIMARY KEY (`id`)
+// ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+// CREATE TABLE `income` (
+//     `id` int(11) NOT NULL AUTO_INCREMENT,
+//     `income_claudiu` int(11) DEFAULT NULL,
+//     `income_frumy` int(11) DEFAULT NULL,
+//     `outcome_casa` int(11) DEFAULT NULL,
+//     `outcome_masina` int(11) DEFAULT NULL,
+//     `outcome_avans` int(11) DEFAULT NULL,
+//     `outcome_engie` int(11) DEFAULT NULL,
+//     `outcome_enel` int(11) DEFAULT NULL,
+//     `outcome_digi` int(11) DEFAULT NULL,
+//     `outcome_intretinere` int(11) DEFAULT NULL,
+//     `outcome_abonamente` int(11) DEFAULT NULL,
+//     `outcome_vacanta` int(11) DEFAULT NULL,
+//     `outcome_extra` varchar(1024) DEFAULT NULL,
+//     `total_income` int(11) DEFAULT NULL,
+//     `total_outcome` int(11) DEFAULT NULL,
+//     `year` int(11) DEFAULT NULL,
+//     `month_name` varchar(255) DEFAULT NULL,
+//     `creation` datetime DEFAULT NULL,
+//     PRIMARY KEY (`id`)
+// ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+// INSERT INTO test.accounts
+// (id, username, password, email, avatar)
+// VALUES(2, 'frumy', 'sha1$bf2b6bd2$1$342e6ae170c2c5433f352e219c46bf8d75dfff7f', 'andreea_14_02@yahoo.com', '''/img/frumyAvatar.png''');
+
+// INSERT INTO test.accounts
+// (id, username, password, email, avatar)
+// VALUES(3, 'claudiu', 'sha1$5f992b5e$1$42a34631b6e33aa1ccdbc7e2482db83075d53c7e', 'claudiu.ilie0322@gmail.com', '''/img/claudiuAvatar.png''');
+
+// INSERT INTO test.income
+// (id, income_claudiu, income_frumy, outcome_casa, outcome_masina, outcome_avans, outcome_engie, outcome_enel, outcome_digi, outcome_intretinere, outcome_abonamente, outcome_vacanta, outcome_extra, total_income, total_outcome, `year`, month_name, creation)
+// VALUES(1, 6500, 2700, 630, 380, 235, 35, 65, 87, 110, 200, 0, '{"Facultate":"1700","Mom":"1000","Weeks":"2000","Avantaj":"250","Masina":"250","Tricouri":"210","Medic":"400","Team building":"250"}', 9200, 7802, 2019, 'september', '2019-09-12 11:54:11.000');
+//
+// INSERT INTO test.income
+// (id, income_claudiu, income_frumy, outcome_casa, outcome_masina, outcome_avans, outcome_engie, outcome_enel, outcome_digi, outcome_intretinere, outcome_abonamente, outcome_vacanta, outcome_extra, total_income, total_outcome, `year`, month_name, creation)
+// VALUES(2, 6500, 3600, 632, 380, 235, 20, 60, 87, 30, 200, 3000, '{"Mom":"1000","Weeks":"2000","Avantaj":"450","Revizie masina":"400","Munte":"800","Haine":"600"}', 10100, 9894, 2019, 'october', '2019-10-23 16:09:02.000');
+//
+// INSERT INTO test.income
+// (id, income_claudiu, income_frumy, outcome_casa, outcome_masina, outcome_avans, outcome_engie, outcome_enel, outcome_digi, outcome_intretinere, outcome_abonamente, outcome_vacanta, outcome_extra, total_income, total_outcome, `year`, month_name, creation)
+// VALUES(3, 6500, 3500, 620, 380, 235, 0, 60, 87, 90, 200, 3000, '{"Avantaj":"375","Mom":"1000","Weeks":"2000","Revizie masina":"400"}', 10000, 8447, 2019, 'November', '2019-10-24 19:55:46.000');
+
 /*
     1.add to config 
 
