@@ -3,9 +3,10 @@ const request = require('request');
 const options = require('../assets/config/config');
 const ewelink = require('ewelink-api');
 const mysqlController = require('../assets/js/mysqlController');
+const DateAndTime = require('../assets/entity/date');
+const Chart = require('../assets/entity/tempHistoryChart');
 const config = new options();
 const mysql = new mysqlController(config.mysql);
-const DateAndTime = require('../assets/entity/date');
 const date = new DateAndTime();
 
 let router = express.Router();
@@ -21,32 +22,33 @@ router.get('/',(req,res, next) => {
                 return next(error);
             }
             arduinoSensors = JSON.parse(body);
-            res.render('home_control',{
-                sensors: JSON.parse(arduinoSensors.sensors)
+
+            mysql.select(config.mysqlTables.tempMonitor,{"date":date.getCurrentDate()}, (error, results) => {
+                if(error) {
+                    return next(error);
+                }
+
+                for (let k in results) {
+                    if(results[k].type == "sensors"){
+                        sensorsData = results[k];
+                        sensorsData.json_data = JSON.parse(sensorsData.json_data)
+                    }
+
+                    if(results[k].type == "weather") {
+                        weatherData = results[k];
+                        weatherData.json_data = JSON.parse(weatherData.json_data)
+                    }
+
+                }
+
+                let chart = new Chart(sensorsData.json_data,weatherData.json_data)
+
+                res.render('home_control',{
+                    sensors: JSON.parse(arduinoSensors.sensors),
+                    tempHistory: chart
+                });
             });
         });
-
-        mysql.select(config.mysqlTables.tempMonitor,{"date":date.getCurrentDate()}, (error, results) => {
-            if(error) {
-                return next(error);
-            }
-            
-            for (let k in results) {
-                if(results[k].type == "sensors"){
-                    sensorsData = results[k];
-                    sensorsData.json_data = JSON.parse(sensorsData.json_data)
-                }
-                    
-                if(results[k].type == "weather") {
-                    weatherData = results[k]; 
-                    weatherData.json_data = JSON.parse(weatherData.json_data)
-                }
-
-            }
-            console.log(sensorsData);
-            console.log(weatherData);
-        });
-
     }
 });
 
