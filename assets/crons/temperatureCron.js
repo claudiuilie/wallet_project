@@ -5,7 +5,7 @@ const connection = require('mysql');
 const config = new options();
 const mysql = connection.createConnection(config.mysql);
 const DateAndTime = require('../entity/date');
-const Date = new DateAndTime();
+
 
 let params = {};
 let weatherParams = {};
@@ -117,7 +117,7 @@ class temperatureCron {
     constructor() {
         
         cron.schedule(config.crons.temperatureCron.interval, () => {
-
+            let Date = new DateAndTime();
             currentDate = Date.getCurrentDate();
             paramsIndex = `hours_${Date.getHours()}`;
 

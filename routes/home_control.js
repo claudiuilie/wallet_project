@@ -47,56 +47,6 @@ router.get('/',(req,res, next) => {
             console.log(weatherData);
         });
 
-        // / manual data ///
-        // temp: variabila cu temperatura senzorului
-        // arduinoSensors =
-        //     [
-        //         {
-        //             "temp":25,
-        //             "tempProcent": (25/50)*100,
-        //             "humidity": 50,
-        //             "icon": "fas fa-bed",
-        //             "relays": []
-        //         },
-        //         {
-        //             "temp":30,
-        //             "tempProcent": (30/50)*100,
-        //             "humidity": 50,
-        //             "icon": "fas fa-couch",
-        //             "relays": [
-        //                 {
-        //                     "status" : false,
-        //                     "name" : "Living lights",
-        //                     "id" : 1,
-        //                     "webhook": "living_lights_"
-        //                 }
-        //             ]
-        //         },
-        //         {
-        //             "temp":10,
-        //             "tempProcent": (10/50)*100,
-        //             "humidity": 50,
-        //             "icon": "fas fa-utensils",
-        //             "relays": [
-        //                 {
-        //                     "status" : true,
-        //                     "name" : "Kitchen LED",
-        //                     "id" : 2 // id-ul pinului la care e conectat
-        //                 }
-        //             ]
-        //         },
-        //         {
-        //             "temp":45,
-        //             "tempProcent": (45/50)*100,
-        //             "humidity": 50,
-        //             "icon": "fas fa-bath",
-        //             "relays": []
-        //         }
-        //     ]
-        // ;
-        // res.render('home_control',{
-        //     sensors: arduinoSensors
-        // });
     }
 });
 
