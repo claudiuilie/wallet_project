@@ -5,24 +5,35 @@ const session = require('express-session');
 const exphbs  = require('express-handlebars');
 const options = require('./assets/config/config');
 const cron = require('./assets/crons/temperatureCron');
+const mysql = require('mysql');
+const mysqltorest  = require('mysql-to-rest');
 const temperatureCron = new cron();
+const passwordHash = require('password-hash');
 
+let api;
 let app = express();
 let config = new options();
+
+
+
 
 app.engine('hbs', exphbs({extname:'hbs', defaultLayout:'main.hbs'}));
 app.set('view engine', 'hbs');
 
 app.use(session({
-    secret: 'secret',  //de schimbat 
+    secret: passwordHash.generate('secret'),  //de schimbat 
     resave: true,
     maxAge: 3600000,
     saveUninitialized: true
 }));
+
 app.use(function(req, res, next){
     res.locals.session = req.session;
     next();
 });
+
+api = mysqltorest(app,mysql.createConnection(config.mysql));
+
 app.use(bodyParser.urlencoded({extended : true}));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'assets')));
@@ -50,6 +61,7 @@ app.use('/logout', logoutRouter);
 app.get('*', (req, res) => {
     res.render('home',{layout:'error.hbs'});
 });
+
 
 app.listen(config.server.port,config.server.host,() => console.log(`Listening ${config.server.host}:${config.server.port}`));
 

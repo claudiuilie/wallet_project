@@ -43,7 +43,9 @@
                     <div class="portfolio-item mx-auto">
                         <div class="card text-center text-primary">
                             <div class="card-header p-0">
-                                <span><i>Daily temperature</i></span></br>
+                                <span><i>Daily temperature</i>
+                                </span></br>
+                                <input type="text" class="histCalendar" id="dailyTempHist" value="11/05/2019" onclick="calendarHandler(this)"/>
                             </div>
                             <div class="card-body">
                                 <div class="m-0">
@@ -63,6 +65,7 @@
                             <div class="card text-center text-primary">
                                 <div class="card-header p-0">
                                     <span><i>Daily humidity</i></span></br>
+                                    <input type="text" class="histCalendar" id="dailyHumHist" value="11/05/2019" onclick="calendarHandler(this)"/>
                                 </div>
                                 <div class="card-body">
                                     <div class="m-0">
@@ -88,19 +91,55 @@
     $(document).ready(function(){
         $(".GaugeMeter").gaugeMeter();
     });
+        let calendarId;
+        function switchHandler(elem) {
 
-    function switchHandler(elem) {
+            blockControl(elem);
 
-        blockControl(elem);
+            $.ajax({
+                method: "POST",
+                url: "/control",
+                data: { "relayId": elem.id, "status": elem.checked, "switch": elem.value }
+            }).done(function () {
+                unblockControl(elem)
+            })
+        }
 
-         $.ajax({
-             method: "POST",
-             url : "/control",
-             data: {"relayId": elem.id, "status": elem.checked, "switch": elem.value}
-         }).done(function(){
-             unblockControl(elem)
-         })
-    }
+        function calendarHandler(elem) {
+            calendarId = elem
+        }
+
+        $(function () {
+            $('.histCalendar').daterangepicker({
+                singleDatePicker: true,
+                showDropdowns: true,
+                minYear: 2019,
+                maxYear: parseInt(moment().format('YYYY'), 10)
+            }, function (start, end, label) {
+                blockControl(calendarId); 
+
+                let date = new Date(start._d)
+                let filteredTime = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
+                let chartHistory = {sensorLabels:[],tempData:[],humidityData:[],weatherTempData:[],weatherHumData:[]};
+                $.ajax({
+                    method: "GET",
+                    url: `/api/temperature_monitor?date=${filteredTime}`,
+                    success: (data) => {
+                        for(let k in data.json) {
+                            chartHistory[data.json[k].type+'History'] = JSON.parse(data.json[k].json_data)
+                        }
+                    }
+                }).done(function (req,res) {
+                    console.log(res)
+                    for(let k in chartHistory) {
+                        for(let z in )
+                    } 
+                    console.log(chartHistory)
+                    unblockControl(calendarId)
+                })
+            });
+        });
+{{!-- DE CREAT MEDTODA DE POST CU PRELUARE OBIECT DIN DB SI UPDATE CHART --}}
 </script>
 <script src="/js/chart.js"></script>
 <script>
@@ -233,5 +272,4 @@
     //     }
     // }
 </script>
-
 

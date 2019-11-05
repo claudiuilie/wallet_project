@@ -17,38 +17,64 @@ router.get('/',(req,res, next) => {
 
     else {
 
-        request(`${config.arduino.host}/sensors`,  (error, response, body) => {
-            if(error) {
-                return next(error);
-            }
-            arduinoSensors = JSON.parse(body);
+        // request(`${config.arduino.host}/sensors`,  (error, response, body) => {
+        //     if(error) {
+        //         return next(error);
+        //     }
+        //     arduinoSensors = JSON.parse(body);
 
-            mysql.select(config.mysqlTables.tempMonitor,{"date":date.getCurrentDate()}, (error, results) => {
-                if(error) {
-                    return next(error);
-                }
+        //     mysql.select(config.mysqlTables.tempMonitor,{"date":date.getCurrentDate()}, (error, results) => {
+        //         if(error) {
+        //             return next(error);
+        //         }
 
-                for (let k in results) {
-                    if(results[k].type == "sensors"){
-                        sensorsData = results[k];
-                        sensorsData.json_data = JSON.parse(sensorsData.json_data)
+        //         for (let k in results) {
+        //             if(results[k].type == "sensors"){
+        //                 sensorsData = results[k];
+        //                 sensorsData.json_data = JSON.parse(sensorsData.json_data)
+        //             }
+
+        //             if(results[k].type == "weather") {
+        //                 weatherData = results[k];
+        //                 weatherData.json_data = JSON.parse(weatherData.json_data)
+        //             }
+
+        //         }
+
+        //         let chart = new Chart(sensorsData.json_data,weatherData.json_data)
+
+        //         res.render('home_control',{
+        //             sensors: JSON.parse(arduinoSensors.sensors),
+        //             tempHistory: chart
+        //         });
+        //     });
+        // });
+// mock
+        mysql.select('temperature_monitor',{"date":date.getCurrentDate()}, (error, results) => {
+                    if(error) {
+                        return next(error);
                     }
-
-                    if(results[k].type == "weather") {
-                        weatherData = results[k];
-                        weatherData.json_data = JSON.parse(weatherData.json_data)
+    
+                    for (let k in results) {
+                        if(results[k].type == "sensors"){
+                            sensorsData = results[k];
+                            sensorsData.json_data = JSON.parse(sensorsData.json_data)
+                        }
+    
+                        if(results[k].type == "weather") {
+                            weatherData = results[k];
+                            weatherData.json_data = JSON.parse(weatherData.json_data)
+                        }
+    
                     }
-
-                }
-
-                let chart = new Chart(sensorsData.json_data,weatherData.json_data)
-
-                res.render('home_control',{
-                    sensors: JSON.parse(arduinoSensors.sensors),
-                    tempHistory: chart
-                });
+    
+                    let chart = new Chart(sensorsData.json_data,weatherData.json_data)
+    
+                    res.render('home_control',{
+                        sensors: [{"temp":22,"humidity":81,"icon":"fas fa-bed"},{"temp":22,"humidity":84,"icon":"fas fa-couch"},{"temp":22,"humidity":81,"icon":"fas fa-utensils"},{"timestamp":"4:24:22 PM"}],"hours_16":[{"temp":22,"humidity":81,"icon":"fas fa-bed"},{"temp":22,"humidity":84,"icon":"fas fa-couch"},{"temp":22,"humidity":81,"icon":"fas fa-utensils"},{"timestamp":"4:24:22 PM"}],
+                        tempHistory: chart
+                    });
             });
-        });
     }
 });
 
