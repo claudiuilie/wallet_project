@@ -45,12 +45,15 @@
                             <div class="card-header p-0">
                                 <span><i>Daily temperature</i>
                                 </span></br>
-                                <input type="text" class="histCalendar" id="dailyTempHist" value="11/05/2019" onclick="calendarHandler(this)"/>
+                                <input type="text" class="border-0 bg-primary rounded histCalendar mb-2 text-center text-light " id="dailyTempHist" value="{{tempHistory.date}}"
+                                    onclick="calendarHandler(this)" /></br>
+                                <span class="mb-2 p-1 rounded"
+                                    style="border:1px solid red ;background-color:rgba(255,226,0,0.19);color:red;display: none;"></span>
                             </div>
                             <div class="card-body">
                                 <div class="m-0">
                                     <div class="container">
-
+                        
                                     </div>
                                 </div>
                             </div>
@@ -58,14 +61,15 @@
                                 <canvas id="temperatureHistoryChart"></canvas>
                             </div>
                         </div>
-                    </div>
+                        </div>
                 </div>
                     <div class="col-md-6 col-lg-4">
                         <div class="portfolio-item mx-auto">
                             <div class="card text-center text-primary">
                                 <div class="card-header p-0">
                                     <span><i>Daily humidity</i></span></br>
-                                    <input type="text" class="histCalendar" id="dailyHumHist" value="11/05/2019" onclick="calendarHandler(this)"/>
+                                    <input type="text" class="border-0 bg-primary rounded histCalendar mb-2 text-center text-light " id="dailyHumHist" value="{{tempHistory.date}}" onclick="calendarHandler(this)"/></br>
+                                    <span class="p-1 rounded" style="border:1px solid red ;background-color:rgba(255,226,0,0.19);color:red;display: none;"></span>
                                 </div>
                                 <div class="card-body">
                                     <div class="m-0">
@@ -85,12 +89,12 @@
         </section>
     </header>
 </div>
-
 <script src="/js/GaugeMeter.js"></script>
 <script>
     $(document).ready(function(){
         $(".GaugeMeter").gaugeMeter();
     });
+    
         let calendarId;
         function switchHandler(elem) {
 
@@ -105,6 +109,21 @@
             })
         }
 
+    function updateHistoryChart(chart, dataset) {
+
+        chart.data.labels = dataset.history.sensorLabels
+
+        if (dataset.temp) {
+            chart.data.datasets[0].data = dataset.history.tempData
+            chart.data.datasets[1].data = dataset.history.weatherTempData
+        }
+        else if (dataset.hum) {
+            chart.data.datasets[0].data = dataset.history.humidityData
+            chart.data.datasets[1].data = dataset.history.weatherHumData
+        }
+        chart.update();
+    }
+
         function calendarHandler(elem) {
             calendarId = elem
         }
@@ -116,25 +135,39 @@
                 minYear: 2019,
                 maxYear: parseInt(moment().format('YYYY'), 10)
             }, function (start, end, label) {
-                blockControl(calendarId); 
+                
 
                 let date = new Date(start._d)
-                let filteredTime = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`
-                let chartHistory = {sensorLabels:[],tempData:[],humidityData:[],weatherTempData:[],weatherHumData:[]};
+                let filteredTime = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
+                
+            blockControl(calendarId);
+
                 $.ajax({
-                    method: "GET",
-                    url: `/api/temperature_monitor?date=${filteredTime}`,
-                    success: (data) => {
-                        for(let k in data.json) {
-                            chartHistory[data.json[k].type+'History'] = JSON.parse(data.json[k].json_data)
+                    method: "POST",
+                    url: "/control/history",
+                    data: { "date": filteredTime , "calendarId":calendarId.id}
+                }).done(function (newChart) {
+
+                    
+                    if (newChart.found){
+                       
+                        if (newChart.calendar == "dailyTempHist") {
+                            newChart["temp"] = true;
+                            updateHistoryChart(monthlyTempChart,newChart)
                         }
+                        else if (newChart.calendar == "dailyHumHist") {
+                            newChart["hum"] = true;
+                            updateHistoryChart(monthlyHumChart,newChart)
+                        }
+                    }else{
+                         
+                        $($(`#${newChart.calendar}`).parent().children()[4]).html(newChart.message);
+                        $($(`#${newChart.calendar}`).parent().children()[4]).show();
+
+                        setTimeout(()=>{
+                            $($(`#${newChart.calendar}`).parent().children()[4]).hide('slow');
+                        },1500)
                     }
-                }).done(function (req,res) {
-                    console.log(res)
-                    for(let k in chartHistory) {
-                        for(let z in )
-                    } 
-                    console.log(chartHistory)
                     unblockControl(calendarId)
                 })
             });
@@ -143,8 +176,9 @@
 </script>
 <script src="/js/chart.js"></script>
 <script>
-    var ctxGraph = document.getElementById('temperatureHistoryChart');
-    var monthlyChart = new Chart(ctxGraph, {
+    
+    var ctxTempGraph = document.getElementById('temperatureHistoryChart');
+    var monthlyTempChart = new Chart(ctxTempGraph, {
         type: 'bar',
         data: {
             labels: "{{tempHistory.sensorLabels}}".split(","),
@@ -193,8 +227,8 @@
         }
     });
 
-    var ctxGraph = document.getElementById('humidityHistoryChart');
-    var monthlyChart = new Chart(ctxGraph, {
+    var ctxHumGraph = document.getElementById('humidityHistoryChart');
+    var monthlyHumChart = new Chart(ctxHumGraph, {
         type: 'bar',
         data: {
             labels: "{{tempHistory.sensorLabels}}".split(","),

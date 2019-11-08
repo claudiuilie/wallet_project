@@ -26,6 +26,10 @@ class DateAndTime {
     getCurrentDate() {
         return `${this.getYear()}-${this.getMonth()}-${this.getDay()}`
     }
+
+    revertCurrentDate() {
+        return `${this.getMonth()}/${this.getDay()}/${this.getYear()}`
+    }
 }
 
 module.exports = DateAndTime;

@@ -1,11 +1,11 @@
 class tempHistoryChart {
-    constructor(sensors, weather) {
+    constructor(sensors, weather,date) {
         this.sensorLabels = [];
         this.tempData = [];
         this.humidityData = [];
         this.weatherTempData = [];
         this.weatherHumData = [];
-
+        this.date = date
         for (let k in sensors) {
             this.sensorLabels.push(sensors[k][3].timestamp);
             this.tempData.push(sensors[k][1].temp);
