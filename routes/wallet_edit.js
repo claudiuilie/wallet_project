@@ -5,7 +5,7 @@ const express = require('express');
 const config = new options();
 
 let router = express.Router();
-
+let mysql = new mysqlController(config.mysql);
 
 router.get('/', (req, res, next) => {
 
@@ -13,13 +13,19 @@ router.get('/', (req, res, next) => {
 
     else {
         if (Object.keys(req.query).length > 0 ) {
-            let mysql = new mysqlController(config.mysql);
-            mysql.select('income' ,req.query,(error,results)=>{
+
+            
+
+            let query = `Select * from income i 
+                        LEFT JOIN outcome o on o.income_id = i.id 
+                        where i.month = '${req.query.month}' and  year = '${req.query.year}';`
+
+            mysql.query(query,[],(error,results)=>{
                 if(error) {
                     return next(error);
                 }
-                let month = new monthEntity()
-                month.getMonth(results[0])
+                let month = new monthEntity();
+                month.getMonth(results[0]);
                 res.render('wallet_edit', {month :month});
             });
         } else {
@@ -30,17 +36,19 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
     let month = new monthEntity();
+    console.log(req.body)
+
     month.setMonth(req.body);
-    let mysql = new mysqlController(config.mysql);
-    mysql.update('income',month,{'month_name': month.month_name, "year": month.year},(error,results) => {
-        if(error) {
-            return next(error);
-        } else {
-            if (results.affectedRows > 0 ) {
-                res.redirect('/wallet');
-            }
-        }
-    });
+    console.log(month)
+    // mysql.update('income',month,{'month': month.month, "year": month.year},(error,results) => {
+    //     if(error) {
+    //         return next(error);
+    //     } else {
+    //         if (results.affectedRows > 0 ) {
+    //             res.redirect('/wallet');
+    //         }
+    //     }
+    // });
 });
 
 module.exports = router;

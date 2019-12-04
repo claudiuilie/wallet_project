@@ -6,15 +6,8 @@ class OutcomeChart {
         this.data = [];
         this.labels = [];
 
-        for (let k in month) {
-
-            if (k.match(/outcome_/gm) && k !== 'outcome_extra') {
-                this.arr.push([k.replace("outcome_","").replace(/^\w/, c => c.toUpperCase()), month[k]]);
-            }
-        }
-
-        for (let y in month.outcome_extra) {
-            this.arr.push([y , parseInt(month.outcome_extra[y])]);
+        for (let y in month.outcome_data) {
+            this.arr.push([y , parseInt(month.outcome_data[y])]);
         }
 
         this.arr.sort((a, b) => {return a[1] - b[1]} );

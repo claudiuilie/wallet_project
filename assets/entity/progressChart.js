@@ -7,8 +7,8 @@ class ProgressChart {
         this.labels = [];
 
         year.forEach((arr) => {
-            this.data.push(arr.total_income);
-            this.labels.push(arr.month_name);
+            this.data.push(arr.income);
+            this.labels.push(arr.month);
         })
     }
 

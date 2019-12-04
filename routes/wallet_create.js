@@ -21,26 +21,38 @@ router.post('/', (req, res, next) => {
     month.setMonth(req.body);
 
     function validateMonth() {
-        mysql.select('income',{'month_name':month.month_name,'year':month.year},(error,results) =>{
+        mysql.select(config.mysql.income,{'month':month.month,'year':month.year},(error,results) =>{
             if(error) {
                 return next(error);
             } else {
                 if (results.length == 0) {
-                    postData()
+                    postData(month);
                 } else {
-                    res.render('wallet_create', {message: `Exista deja date pentru ${month.month_name} ${month.year}` , infoModal: 'show'});
+                    res.render('wallet_create', {message: `Exista deja date pentru ${month.month} ${month.year}` , infoModal: 'show'});
                 }
             }
         });
     }
 
-    function postData() {
-        mysql.insert('income',month,(error,results) => {
+    function postData(month) {
+
+        mysql.insert(config.mysql.income,{ 'income' : month.income,'month': month.month, 'year':  month.year},(error,results) => {
+
             if(error) {
                 return next(error);
             } else {
                 if (results.affectedRows > 0 ) {
-                    res.render('wallet_create', {message: `Success: affected rows ${results.affectedRows}` , infoModal: 'show'});
+                    
+                    mysql.insert(config.mysql.outcome,{'total_outcome':month.total_outcome,'income_id': results.insertId, 'outcome_data':month.outcome_data},(error,results) => {
+                        if(error) {
+                            return next(error);
+                        } else {
+                            if (results.affectedRows > 0 ) {
+
+                                res.render('wallet_create', {message: `Success: affected rows ${results.affectedRows}` , infoModal: 'show'});
+                            }
+                        }
+                    });
                 }
             }
         });

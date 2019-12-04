@@ -15,7 +15,7 @@ class mysqlController {
                     querry += ' AND '
                 }
             }
-           
+
             this.connection.query(querry,Object.values(request),(error,res)=>{
 		        return results(error,res);
             });
@@ -44,6 +44,15 @@ class mysqlController {
             return results(error,res);
         })
     }
+
+    query(query,params,results) {
+
+        let q = query;
+
+        this.connection.query(q,params,(error,res)=> {
+            return results(error,res);
+        })
+    }   
 }
 
 module.exports = mysqlController;

@@ -9,7 +9,7 @@
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="width: 100%;text-align: center;">
                                 <input type="hidden" class="form-control" name="year" value="{{pieData.year}}">
                                 {{#each progressData.labels}}
-                                    <input id="monthName" type="submit" class="form-control" name="month_name" value="{{this}}">
+                                    <input id="monthName" type="submit" class="form-control" name="month" value="{{this}}">
                                 {{/each}}
                             </div>
                         </form>
@@ -26,7 +26,7 @@
                 <div class="card-footer border-0">
                     <div>
                         <form  id ="formData" method="GET" action="/wallet/edit" >
-                            <input id="monthName" type="hidden" class="form-control" name="month_name" value="{{{pieData.month}}}">
+                            <input id="monthName" type="hidden" class="form-control" name="month" value="{{{pieData.month}}}">
                             <input type="hidden" class="form-control" name="year" value="{{{pieData.year}}}">
                             <button type="submit" class="btn btn-primary  btn-block " >Edit</button>
                         </form>
@@ -72,7 +72,7 @@
                     options: {
                         title: {
                             display: false,
-                            text: "{{{incomeList.month_name}}} {{{incomeList.year}}}"
+                            text: "{{{incomeList.month}}} {{{incomeList.year}}}"
                         },
                         tooltips: {
                             enabled: true

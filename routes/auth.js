@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
     let username = req.body.username;
     let password = req.body.password;
     if (username && password) {
-        mysql.select('accounts', {'username': username}, (error, results) => {
+        mysql.select(config.mysql.users, {'username': username}, (error, results) => {
             if(error) {
                 return next(error);
             }

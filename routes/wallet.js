@@ -17,14 +17,20 @@ function builder(req,res,next, params){
     let progressChart;
     let month = new monthEntity();
 
-    mysql.select('income', {'year' : date.getFullYear()}, (error, results) => {
+    mysql.select(config.mysql.income, {'year' : date.getFullYear()}, (error, results) => {
         if(error) {
             return next(error);
         }
         year = results;
 
+
         progressChart = new progressEntity(year);
-        mysql.select('income' ,params,(error,results)=>{
+
+        let query = `Select * from income i 
+                        LEFT JOIN outcome o on o.income_id = i.id 
+                        where i.month = '${params.month}';`
+
+        mysql.query(query,[],(error,results)=>{
             if(error) {
                 return next(error);
             }
@@ -32,9 +38,11 @@ function builder(req,res,next, params){
             if (results.length > 0) {
 
                 month.getMonth(results[0]);
+
                 let pieChart = new pieEntity(month);
                 let outcomeChart = new outcomeEntity(month);
                 progressChart.shortMonths();
+
                 res.render('wallet', {
                     pieData: pieChart,
                     outcomeData: outcomeChart,
@@ -48,20 +56,15 @@ function builder(req,res,next, params){
     });
 }
 
-// middleware that is specific to this router
-// router.use(function timeLog (req, res, next) {
-//     console.log('Time: ', Date.now())
-//     next()
-// })
 
 router.get('/', (req, res, next) => {
 
-    if (!req.session.loggedin) res.redirect('/auth');
+    // if (!req.session.loggedin) res.redirect('/auth');
 
-    else {
-        let params = {'month_name': date.toLocaleString('default', { month: 'long' }),'year': date.getFullYear()}
+    // else {
+        let params = {'month': date.toLocaleString('default', { month: 'long' }),'year': date.getFullYear()}
         builder(req,res,next,params);
-    }
+    // }
 });
 
 router.post('/', (req, res, next) => {
