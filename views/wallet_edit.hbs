@@ -6,19 +6,19 @@
 
                 <div class="card-header text-info border-0" style="text-align: center;" >
                     <a href ="/wallet"><button class="btn btn-info float-left"><i class="far fa-arrow-alt-circle-left"></i></button></a>
-                    <h6 class="float-right mt-2">{{month.month_name}} {{month.year}}</h6>
+                    <h6 class="float-right mt-2">{{month.month}} {{month.year}}</h6>
                 </div>
                 <div class="card-body text-center">
                     <form id ="formData" class="was-validated " method="POST" action="/wallet/edit" >
 
                         <div class="form-group">
-                            <input type="hidden" class="form-control" name="month_name" value="{{{month.month}}}">
+                            <input type="hidden" class="form-control" name="month" value="{{{month.month}}}">
                         </div>
                         <div class="form-group">
                             <input type="hidden" class="form-control" name="year" value="{{{month.year}}}">
                         </div>
                         <div class="form-group">
-                            <label class="text-info" style="color: #1c7430" for="formGroupExampleInput">Income Claudiu</label>
+                            <label class="text-info" style="color: #1c7430" for="formGroupExampleInput">Income</label>
                             <input type="number" value="{{{month.income}}}" class="form-control" name="income" placeholder="Enter income" required>
                         </div>
                 

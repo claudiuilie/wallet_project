@@ -24,6 +24,11 @@
                     </div>
                 </div>
                 <div class="card-footer border-0">
+                    <div class="pt-1 mb-2">
+                        <a href="/wallet/create">
+                            <button type="button" class="btn btn-success  btn-block">Add</button>
+                        </a>
+                    </div>
                     <div>
                         <form  id ="formData" method="GET" action="/wallet/edit" >
                             <input id="monthName" type="hidden" class="form-control" name="month" value="{{{pieData.month}}}">
@@ -31,14 +36,15 @@
                             <button type="submit" class="btn btn-primary  btn-block " >Edit</button>
                         </form>
                     </div>
-                    <div class="pt-1">
-                        <a href="/wallet/create">
-                            <button type="button" class="btn btn-success  btn-block">Add</button>
-                        </a>
+                    <div class="pt-2">
+                        <form  id ="formData"  onsubmit="return deleteConfirmation()">
+                            <input id="monthName" type="hidden" class="form-control" name="month" value="{{{pieData.month}}}">
+                            <input type="hidden" class="form-control" name="year" value="{{{pieData.year}}}">
+                            <button type="submit" class="btn btn-danger  btn-block " >Delete</button>
+                        </form>
                     </div>
                 </div>
             </div>
-
             <div class="card" style="width: 100%">
                 <canvas id="pieChart2"></canvas>
                 <div class="card-body">
@@ -139,8 +145,27 @@
                     options: {}
                 });
             </script>
-
-
+            <script>
+                    function deleteConfirmation() {
+                        var r = confirm("Press ok for confirmation.");
+                        if (r == true) {
+                            $.ajax({
+                                method: "POST",
+                                url: "/wallet/delete",
+                                data: { "year": '{{pieData.year}}' , "month": '{{pieData.month}}'}
+                            }).done(function (data) {
+                                if(data.affectedRows == 1){
+                                    location.replace('/wallet');
+                                }else{
+                                    alert('Err')
+                                }
+                            })
+                            return false;
+                        }else{
+                            return false;
+                        }
+                    }
+                </script>
 </header>
 
 

@@ -11,18 +11,17 @@ let router = express.Router();
 let mysql = new mysqlController(config.mysql);
 let date = new Date();
 
-function builder(req,res,next, params){
+function builder(req, res, next, params) {
 
     let year;
     let progressChart;
     let month = new monthEntity();
 
-    mysql.select(config.mysql.income, {'year' : date.getFullYear()}, (error, results) => {
-        if(error) {
+    mysql.select(config.mysql.income, { 'year': date.getFullYear() }, (error, results) => {
+        if (error) {
             return next(error);
         }
         year = results;
-
 
         progressChart = new progressEntity(year);
 
@@ -30,8 +29,8 @@ function builder(req,res,next, params){
                         LEFT JOIN outcome o on o.income_id = i.id 
                         where i.month = '${params.month}';`
 
-        mysql.query(query,[],(error,results)=>{
-            if(error) {
+        mysql.query(query, [], (error, results) => {
+            if (error) {
                 return next(error);
             }
 
@@ -59,12 +58,12 @@ function builder(req,res,next, params){
 
 router.get('/', (req, res, next) => {
 
-    // if (!req.session.loggedin) res.redirect('/auth');
+    if (!req.session.loggedin) res.redirect('/auth');
 
-    // else {
+    else {
         let params = {'month': date.toLocaleString('default', { month: 'long' }),'year': date.getFullYear()}
-        builder(req,res,next,params);
-    // }
+        builder(req, res, next, params);
+    }
 });
 
 router.post('/', (req, res, next) => {
@@ -72,7 +71,21 @@ router.post('/', (req, res, next) => {
     if (!req.session.loggedin) res.redirect('/auth');
 
     else {
-        builder(req,res,next, req.body);
+        builder(req, res, next, req.body);
+    }
+});
+
+router.post('/delete', (req, res, next) => {
+
+    if (!req.session.loggedin) res.redirect('/auth');
+
+    else {
+        mysql.delete(config.mysql.income,req.body,(err,results) => {
+            if (err)
+                next(err);
+
+            res.send(results);
+        })
     }
 });
 

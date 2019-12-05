@@ -27,6 +27,10 @@ class DateAndTime {
         return `${this.getYear()}-${this.getMonth()}-${this.getDay()}`
     }
 
+    getDateAndTimestamp() {
+        return `${this.getCurrentDate()} ${this.getTimestamp()}`
+    }
+
     revertCurrentDate() {
         return `${this.getMonth()}/${this.getDay()}/${this.getYear()}`
     }
