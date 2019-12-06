@@ -6,72 +6,57 @@ class mysqlController {
         this.connection = mysql.createConnection(config);
     }
 
-    select(database, request, results) {
+    setConditions(c) {
 
-        let querry = `SELECT * FROM ${database} WHERE `;
-        for (let k in request) {
-            querry += `${k} = ?`;
-            if (Object.keys(request).length > 1 && k !== Object.keys(request).pop()) {
-                querry += ' AND '
+        let s = '';
+        for (let k in c) {
+
+            s += `${k} = '${c[k]}'`;
+            if (Object.keys(c).length > 1 && k !== Object.keys(c).pop()) {
+                s += ' AND '
             }
         }
-
-        this.connection.query(querry, Object.values(request), (error, res) => {
-            return results(error, res);
-        });
+        return s;
     }
 
-    insert(database, request, results) {
-        let values = '?,'
-        let querry = `INSERT INTO ${database} (${Object.keys(request)}) VALUES (${values.repeat(Object.keys(request).length).slice(0, -1)});`
+    query(table, query, results) {
 
-        this.connection.query(querry, Object.values(request), (error, res) => {
-            return results(error, res);
-        })
-    }
+        let q;
+        let p;
+        let c;
 
-    update(database, request, filters, results) {
+        switch (query[0]) {
 
-        let querry = `UPDATE ${database} SET ? WHERE `
-
-        for (let k in filters) {
-            querry += `${k} = '${filters[k]}'`;
-            if (Object.keys(filters).length > 1 && k !== Object.keys(filters).pop()) {
-                querry += ' AND '
-            }
+            case "SELECT":
+                c = this.setConditions(query[2]);
+                q = `SELECT ${query[1].join()} FROM ${table} WHERE ${c}`;
+                break;
+            case "UPDATE":
+                c = this.setConditions(query[2]);
+                q = `UPDATE ${table} SET ? WHERE ${c}`
+                p = query[1]
+                break;
+            case "INSERT":
+                let v = '?,'
+                q = `INSERT INTO ${table} (${Object.keys(query[1])}) VALUES (${v.repeat(Object.keys(query[1]).length).slice(0, -1)});`
+                p = Object.values(query[1])
+                break;
+            case "DELETE":
+                c = this.setConditions(query[1]);
+                q = `DELETE FROM ${table} WHERE ${c}`;
+                break;
+            default:
+                q = query;
         }
-
-        this.connection.query(querry, request, (error, res) => {
-            return results(error, res);
-        })
-    }
-
-    delete(table, request, results) {
-        let querry = `DELETE FROM ${table} WHERE `;
-
-        for (let k in request) {
-            querry += `${k} = ?`;
-            if (Object.keys(request).length > 1 && k !== Object.keys(request).pop()) {
-                querry += ' AND '
-            }
-        }
-
-        this.connection.query(querry, Object.values(request), (error, res) => {
-            return results(error, res);
-        })
-    }
-
-    query(query, params, results) {
-
-        let q = query;
-
-        this.connection.query(q, params, (error, res) => {
-            return results(error, res);
+        this.connection.query(q, p, (e, r) => {
+            return results(e, r);
         })
     }
 }
 
 module.exports = mysqlController;
 
-
-
+// ['SELECT', [fields] , {conditions}]
+// ['UPDATE', {field:value} ,{conditions}]
+// ['INSERT', {field:value}]
+// ['DELETE', {conditions}]

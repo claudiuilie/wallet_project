@@ -23,14 +23,14 @@ router.post('/', (req, res, next) => {
     month.setMonth(req.body);
 
     function validateMonth() {
-        mysql.select(config.mysql.income,{'month':month.month,'year':month.year},(error,results) =>{
-            if(error) {
+        mysql.query(config.mysql.income, ['SELECT', ['*'], { 'month': month.month, 'year': month.year }], (error, results) => {
+            if (error) {
                 return next(error);
             } else {
                 if (results.length == 0) {
                     postData(month);
                 } else {
-                    res.render('wallet_create', {message: `Duplicate entry: ${month.month} ${month.year}` , infoModal: 'show'});
+                    res.render('wallet_create', { message: `Duplicate entry: ${month.month} ${month.year}`, infoModal: 'show' });
                 }
             }
         });
@@ -38,20 +38,39 @@ router.post('/', (req, res, next) => {
 
     function postData(month) {
 
-        mysql.insert(config.mysql.income,{ 'income' : month.income,'month': month.month, 'year':  month.year, 'income_created': date.getDateAndTimestamp(), 'income_modified': date.getDateAndTimestamp()},(error,results) => {
+        let q = [
+            'INSERT',
+            {
+                'income': month.income,
+                'month': month.month,
+                'year': month.year,
+                'income_created': date.getDateAndTimestamp(),
+                'income_modified': date.getDateAndTimestamp()
+            }
+        ]
+        mysql.query(config.mysql.income, q, (error, results) => {
 
-            if(error) {
+            if (error) {
                 return next(error);
             } else {
-                if (results.affectedRows > 0 ) {
-                    
-                    mysql.insert(config.mysql.outcome,{'total_outcome':month.total_outcome,'income_id': results.insertId, 'outcome_data':month.outcome_data, 'outcome_created': date.getDateAndTimestamp(), 'outcome_modified': date.getDateAndTimestamp()},(error,results) => {
-                        if(error) {
+                if (results.affectedRows > 0) {
+                    let q = [
+                        'INSERT',
+                        {
+                            'total_outcome': month.total_outcome,
+                            'income_id': results.insertId,
+                            'outcome_data': month.outcome_data,
+                            'outcome_created': date.getDateAndTimestamp(),
+                            'outcome_modified': date.getDateAndTimestamp()
+                        }
+                    ]
+                    mysql.query(config.mysql.outcome, q, (error, results) => {
+                        if (error) {
                             return next(error);
                         } else {
-                            if (results.affectedRows > 0 ) {
+                            if (results.affectedRows > 0) {
 
-                                res.render('wallet_create', {message: `Success: affected rows ${results.affectedRows}` , infoModal: 'show'});
+                                res.render('wallet_create', { message: `Success: affected rows ${results.affectedRows}`, infoModal: 'show' });
                             }
                         }
                     });

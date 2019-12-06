@@ -20,7 +20,7 @@ router.get('/', (req, res, next) => {
                         LEFT JOIN outcome o on o.income_id = i.id 
                         where i.month = '${req.query.month}' and  year = '${req.query.year}';`
 
-            mysql.query(query, [], (error, results) => {
+            mysql.connection.query(query, [], (error, results) => {
                 if (error) {
                     return next(error);
                 }
@@ -38,14 +38,25 @@ router.post('/', (req, res, next) => {
     let month = new monthEntity();
     month.setMonth(req.body);
 
-    mysql.update(config.mysql.income, { 'income': month.income, 'income_modified': date.getDateAndTimestamp() }, { 'month': month.month, 'year': month.year }, (error, results) => {
+    let q = [
+        'UPDATE',
+        {
+            'income': month.income,
+            'income_modified': date.getDateAndTimestamp()
+        },
+        {
+            'month': month.month,
+            'year': month.year
+        }
+    ]
+    mysql.query(config.mysql.income, q, (error, results) => {
         if (error) {
             return next(error);
         } else {
             if (results.affectedRows > 0) { // update
                 let query = `UPDATE ${config.mysql.outcome} SET total_outcome='${month.total_outcome}', outcome_data = '${month.outcome_data}', outcome_modified = '${date.getDateAndTimestamp()}' WHERE income_id = (SELECT id FROM income WHERE month='${month.month}' AND year= '${month.year}');`
 
-                mysql.query(query, [], (error, results) => {
+                mysql.connection.query(query, [], (error, results) => {
                     if (error) {
                         return next(error);
                     } else {

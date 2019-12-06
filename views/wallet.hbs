@@ -46,7 +46,7 @@
                 </div>
             </div>
             <div class="card" style="width: 100%">
-                <canvas id="pieChart2"></canvas>
+                <canvas id="evolutionChart"></canvas>
                 <div class="card-body">
                 </div>
             </div>
@@ -86,50 +86,56 @@
                     }
                 });
 
-                var ctxExtendedOutcome = document.getElementById('extendedOutcomeChart');
-                var extendedChart = new Chart(ctxExtendedOutcome, {
-                    type: 'horizontalBar',
-                    data: {
-                        labels: "{{outcomeData.labels}}".split(","),
-                        datasets: [{
-                            label: "Outcome details",
-                            data: [{{outcomeData.data}}],
-                            backgroundColor:'rgba(255, 99, 132, 0.2)',
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            borderWidth: 1
-                        }]
-                    },
-                    options: {
-                        maintainAspectRatio: false,
-                        scales: {
-                            yAxes: [{
-                                offset: true,
-                                ticks: {
-                                    beginAtZero: true,
-                                    minRotation: 0,
-                                    maxRotation: 50,
-                                    mirror: false,
-                                    padding: 0,
-                                    reverse: false,
-                                    display: true,
-                                    autoSkip: false,
-                                    autoSkipPadding: 0,
-                                    labelOffset: 0
-                                },
-                                gridLines: {
-                                    display: false
-                                }
-                            }],
-                            xAxes: [{
-                                gridLines: {
-                                    display: false
-                                }
-                            }]
-                        }
-                    }
-                });
+                var outcomeLabels = "{{outcomeData.labels}}".split(",");
 
-                var ctxGraph = document.getElementById('pieChart2');
+                if(outcomeLabels[0] != ''){
+                    var ctxExtendedOutcome = document.getElementById('extendedOutcomeChart');
+                    var extendedChart = new Chart(ctxExtendedOutcome, {
+                        type: 'horizontalBar',
+                        data: {
+                            labels: "{{outcomeData.labels}}".split(","),
+                            datasets: [{
+                                label: "Outcome details",
+                                data: [{{outcomeData.data}}],
+                                backgroundColor:'rgba(255, 99, 132, 0.2)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            maintainAspectRatio: false,
+                            scales: {
+                                yAxes: [{
+                                    offset: true,
+                                    ticks: {
+                                        beginAtZero: true,
+                                        minRotation: 0,
+                                        maxRotation: 50,
+                                        mirror: false,
+                                        padding: 0,
+                                        reverse: false,
+                                        display: true,
+                                        autoSkip: false,
+                                        autoSkipPadding: 0,
+                                        labelOffset: 0
+                                    },
+                                    gridLines: {
+                                        display: false
+                                    }
+                                }],
+                                xAxes: [{
+                                    gridLines: {
+                                        display: false
+                                    }
+                                }]
+                            }
+                        }
+                    });
+                }else{
+                    document.getElementById('extendedOutcomeChart').parentElement.remove()
+                }
+
+                var ctxGraph = document.getElementById('evolutionChart');
                 var monthlyChart = new Chart(ctxGraph, {
                     type: 'line',
                     data: {
@@ -152,7 +158,7 @@
                             $.ajax({
                                 method: "POST",
                                 url: "/wallet/delete",
-                                data: { "year": '{{pieData.year}}' , "month": '{{pieData.month}}'}
+                                data: { "year": '{{pieData.year}}' , "month": '{{pieData.month}}', "default": false}
                             }).done(function (data) {
                                 if(data.affectedRows == 1){
                                     location.replace('/wallet');

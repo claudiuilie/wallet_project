@@ -13,7 +13,7 @@ router.get('/', (req, res, next) =>  {
     else {
         let mysql = new mysqlController(config.mysql);
         let account = new Account();
-        mysql.select(config.mysql.users,{'username':req.session.username},(error,results) => {
+        mysql.query(config.mysql.users,['SELECT',['*'],{'username':req.session.username}],(error,results) => {
             account.setAccount(results[0]);
             res.render('profile', {account: account});
         });
@@ -29,11 +29,11 @@ router.post('/', (req, res, next) =>  {
         account.set( Object.keys(req.body)[0],req.body.username);
         account.set( Object.keys(req.body)[1],passwordHash.generate(req.body.password));
 
-        mysql.update(config.mysql.users,account,{'username': account.username},(error,results) => {
+        mysql.query(config.mysql.users,['UPDATE',account,{'username': account.username}],(error,results) => {
             if (error) {
                return next(error);
             }
-            mysql.select(config.mysql.users,{'username' : account.username}, (error,params) => {
+            mysql.query(config.mysql.users,['SELECT',['*'],{'username' : account.username}], (error,params) => {
                 if (error) {
                     return next(error);
                 }

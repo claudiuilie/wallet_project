@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Claudiu Ilie",
+  "license": "USH",
   "dependencies": {
     "chart.js": "^2.8.0",
     "cron": "^1.7.1",

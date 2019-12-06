@@ -12,24 +12,27 @@ let mysql = new mysqlController(config.mysql);
 let date = new Date();
 
 function builder(req, res, next, params) {
-
+    let conditions;
     let year;
     let progressChart;
     let month = new monthEntity();
 
-    mysql.select(config.mysql.income, { 'year': date.getFullYear() }, (error, results) => {
+    mysql.query(config.mysql.income, ['SELECT',['*'],{ 'year': date.getFullYear() }], (error, results) => {
         if (error) {
             return next(error);
         }
         year = results;
-
         progressChart = new progressEntity(year);
 
-        let query = `Select * from income i 
-                        LEFT JOIN outcome o on o.income_id = i.id 
-                        where i.month = '${params.month}';`
+        if(params.default)
+            conditions = `WHERE i.year = '${params.year}' ORDER BY i.income_created DESC LIMIT 1 `
+        else
+            conditions = `WHERE i.month = '${params.month}' and year = '${params.year}'`
 
-        mysql.query(query, [], (error, results) => {
+        let query = `SELECT * FROM income i 
+                        LEFT JOIN outcome o ON o.income_id = i.id ${conditions} ;`
+
+        mysql.connection.query(query, [], (error, results) => {
             if (error) {
                 return next(error);
             }
@@ -55,13 +58,16 @@ function builder(req, res, next, params) {
     });
 }
 
-
 router.get('/', (req, res, next) => {
 
     if (!req.session.loggedin) res.redirect('/auth');
 
     else {
-        let params = {'month': date.toLocaleString('default', { month: 'long' }),'year': date.getFullYear()}
+        let params = {
+            'year': date.getFullYear(),
+            'default': true
+        }
+
         builder(req, res, next, params);
     }
 });
@@ -80,7 +86,7 @@ router.post('/delete', (req, res, next) => {
     if (!req.session.loggedin) res.redirect('/auth');
 
     else {
-        mysql.delete(config.mysql.income,req.body,(err,results) => {
+        mysql.query(config.mysql.income,['DELETE',{ year : req.body.year, month : req.body.month }],(err,results) => {
             if (err)
                 next(err);
 
