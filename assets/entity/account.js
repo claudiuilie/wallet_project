@@ -4,6 +4,7 @@ class Account {
         for (let k in body) {
             this[k] = body[k];
         }
+        
     }
 
     set(key, value) {

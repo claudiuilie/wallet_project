@@ -13,7 +13,12 @@ router.get('/', (req, res, next) =>  {
     else {
         let mysql = new mysqlController(config.mysql);
         let account = new Account();
-        mysql.query(config.mysql.users,['SELECT',['*'],{'username':req.session.username}],(error,results) => {
+        let query = `SELECT u.id,u.username,u.email,ud.phone_number,ud.city,ud.adress,ud.sex,ud.birth_date,u.avatar
+                         FROM users u 
+                            LEFT JOIN user_details ud on ud.user_id = u.id 
+                         WHERE u.username = '${req.session.username}' ;`
+
+        mysql.connection.query(query,[],(error,results) => {
             account.setAccount(results[0]);
             res.render('profile', {account: account});
         });
