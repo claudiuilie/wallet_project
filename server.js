@@ -30,6 +30,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'assets')));
 
 const authRouter = require('./routes/auth');
+const registerRouter = require('./routes/register');
 const homeRouter = require('./routes/home');
 const profileRouter = require('./routes/profile');
 const walletRouter = require('./routes/wallet');
@@ -38,6 +39,7 @@ const editWalletRouter = require('./routes/wallet_edit');
 const logoutRouter = require('./routes/logout');
 
 app.use('/auth', authRouter);
+app.use('/register', registerRouter);
 app.use('/home',homeRouter);
 app.use('/profile',profileRouter);
 app.use('/wallet', walletRouter);
