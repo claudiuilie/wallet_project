@@ -18,7 +18,7 @@ router.get('/', (req, res, next) => {
 
             let query = `Select * from income i 
                         LEFT JOIN outcome o on o.income_id = i.id 
-                        where i.month = '${req.query.month}' and  year = '${req.query.year}';`
+                        where i.month = '${req.query.month}' and  year = '${req.query.year}' and i.username = '${req.session.username}';`
 
             mysql.connection.query(query, [], (error, results) => {
                 if (error) {
@@ -46,7 +46,8 @@ router.post('/', (req, res, next) => {
         },
         {
             'month': month.month,
-            'year': month.year
+            'year': month.year,
+            'username': req.session.username
         }
     ]
     mysql.query(config.mysql.income, q, (error, results) => {
@@ -54,7 +55,7 @@ router.post('/', (req, res, next) => {
             return next(error);
         } else {
             if (results.affectedRows > 0) { // update
-                let query = `UPDATE ${config.mysql.outcome} SET total_outcome='${month.total_outcome}', outcome_data = '${month.outcome_data}', outcome_modified = '${date.getDateAndTimestamp()}' WHERE income_id = (SELECT id FROM income WHERE month='${month.month}' AND year= '${month.year}');`
+                let query = `UPDATE ${config.mysql.outcome} SET total_outcome='${month.total_outcome}', outcome_data = '${month.outcome_data}', outcome_modified = '${date.getDateAndTimestamp()}' WHERE income_id = (SELECT id FROM income WHERE month='${month.month}' AND year= '${month.year}' and username = '${req.session.username}');`
 
                 mysql.connection.query(query, [], (error, results) => {
                     if (error) {

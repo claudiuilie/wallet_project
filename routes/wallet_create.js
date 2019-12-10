@@ -23,7 +23,7 @@ router.post('/', (req, res, next) => {
     month.setMonth(req.body);
 
     function validateMonth() {
-        mysql.query(config.mysql.income, ['SELECT', ['*'], { 'month': month.month, 'year': month.year }], (error, results) => {
+        mysql.query(config.mysql.income, ['SELECT', ['*'], { 'month': month.month, 'year': month.year, 'username': req.session.username }], (error, results) => {
             if (error) {
                 return next(error);
             } else {
@@ -44,6 +44,7 @@ router.post('/', (req, res, next) => {
                 'income': month.income,
                 'month': month.month,
                 'year': month.year,
+                'username': req.session.username,
                 'income_created': date.getDateAndTimestamp(),
                 'income_modified': date.getDateAndTimestamp()
             }

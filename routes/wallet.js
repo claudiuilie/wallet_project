@@ -17,7 +17,7 @@ function builder(req, res, next, params) {
     let progressChart;
     let month = new monthEntity();
 
-    mysql.query(config.mysql.income, ['SELECT',['*'],{ 'year': date.getFullYear() }], (error, results) => {
+    mysql.query(config.mysql.income, ['SELECT',['*'],{ 'year': date.getFullYear(), 'username': req.session.username }], (error, results) => {
         if (error) {
             return next(error);
         }
@@ -25,9 +25,9 @@ function builder(req, res, next, params) {
         progressChart = new progressEntity(year);
 
         if(params.default)
-            conditions = `WHERE i.year = '${params.year}' ORDER BY i.income_created DESC LIMIT 1 `
+            conditions = `WHERE i.year = '${params.year}' and i.username = '${req.session.username}' ORDER BY i.income_created DESC LIMIT 1 `
         else
-            conditions = `WHERE i.month = '${params.month}' and year = '${params.year}'`
+            conditions = `WHERE i.month = '${params.month}' and i.year = '${params.year}' and i.username = '${req.session.username}'`
 
         let query = `SELECT * FROM income i 
                         LEFT JOIN outcome o ON o.income_id = i.id ${conditions} ;`
@@ -86,7 +86,7 @@ router.post('/delete', (req, res, next) => {
     if (!req.session.loggedin) res.redirect('/auth');
 
     else {
-        mysql.query(config.mysql.income,['DELETE',{ year : req.body.year, month : req.body.month }],(err,results) => {
+        mysql.query(config.mysql.income,['DELETE',{ year : req.body.year, month : req.body.month, username : req.session.username }],(err,results) => {
             if (err)
                 next(err);
 
