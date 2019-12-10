@@ -194,18 +194,18 @@
         function userValidator(input) {
             let userParent = input.parentElement.id
             let user = input.value
-            $('#'+userParent).find('small').remove();
-            $('#'+userParent).removeClass("was-validated");
+            $('#' + userParent).find('small').remove();
+            $('#' + userParent).removeClass("was-validated");
 
             $.ajax({
                 method: "POST",
                 url: "/register/checkuser",
                 data: { "username": user }
             }).done(function (data) {
-                if (data){
-                    $('#'+userParent).append('<small class="text-danger text-center">Username already exists!</small>')
-                }else{
-                    $('#'+userParent).addClass("was-validated");
+                if (data) {
+                    $('#' + userParent).append('<small class="text-danger text-center">Username already exists!</small>')
+                } else {
+                    $('#' + userParent).addClass("was-validated");
                 }
             })
         }
@@ -213,4 +213,4 @@
 
 </body>
 
-</html>was-validated
+</html>
